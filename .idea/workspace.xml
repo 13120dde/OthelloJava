@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2744c11-e520-4a6d-9282-2c69732ef58e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/othelloGame/HasPossibleMoves.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/Controller$1.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/Controller$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/Controller.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/Controller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$1.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell$1.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/Player.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/Player.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/Controller.java" afterPath="$PROJECT_DIR$/src/othelloGame/Controller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" afterPath="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" afterPath="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/Player.java" afterPath="$PROJECT_DIR$/src/othelloGame/Player.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,8 +32,8 @@
           <file leaf-file-name="OthelloBoard.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloBoard.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1836">
-                  <caret line="111" column="0" lean-forward="false" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+                <state relative-caret-position="797">
+                  <caret line="106" column="54" lean-forward="true" selection-start-line="106" selection-start-column="54" selection-end-line="106" selection-end-column="54" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -56,8 +44,8 @@
           <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/Controller.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1069">
-                  <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
+                <state relative-caret-position="-1787">
+                  <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -82,8 +70,8 @@
           <file leaf-file-name="OthelloBoard.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloBoard.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="561">
-                  <caret line="111" column="0" lean-forward="false" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+                <state relative-caret-position="277">
+                  <caret line="106" column="71" lean-forward="false" selection-start-line="106" selection-start-column="71" selection-end-line="106" selection-end-column="71" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -116,8 +104,8 @@
       <list>
         <option value="$PROJECT_DIR$/src/othelloGame/HasPossibleMoves.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/Player.java" />
-        <option value="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" />
+        <option value="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/Controller.java" />
       </list>
     </option>
@@ -544,16 +532,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="111" column="0" lean-forward="false" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloMain.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -564,10 +542,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="797">
+          <caret line="106" column="54" lean-forward="true" selection-start-line="106" selection-start-column="54" selection-end-line="106" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/othelloGame/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1069">
-          <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
+        <state relative-caret-position="-1787">
+          <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -5,10 +5,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import static othelloGame.Player.AI;
+import static othelloGame.Player.HU;
+
 public class OthelloBoard extends JPanel{
 
     private BoardCell[][] cells;
-    private Player player;
+    private Player player = AI;
     private Controller controller;
 
     public OthelloBoard(Controller controller){
@@ -31,10 +34,10 @@ public class OthelloBoard extends JPanel{
         for(int row = 0; row<cells.length; row++) {
             for (int col = 0; col<cells[row].length; col++) {
                     cells[row][col]=null;
-                if (controller.checkGameBoard(row, col) == player.HU) {
-                    cells[row][col] = new BoardCell(player.HU, row, col);
-                } else if (controller.checkGameBoard(row, col) == player.AI) {
-                    cells[row][col] = new BoardCell(player.AI, row, col);
+                if (controller.checkGameBoard(row, col) == HU) {
+                    cells[row][col] = new BoardCell(HU, row, col);
+                } else if (controller.checkGameBoard(row, col) == AI) {
+                    cells[row][col] = new BoardCell(AI, row, col);
                 } else if (controller.checkGameBoard(row, col) == player.EM) {
                     cells[row][col] = new BoardCell(player.EM, row, col);
                 }
@@ -101,7 +104,7 @@ public class OthelloBoard extends JPanel{
                 @Override
                 public void mouseEntered(MouseEvent e) {
 
-                            if(controller.checkValidPlacement(row,col, Player.HU)){
+                            if(controller.checkValidPlacement(row,col, AI)){
                                 okToPlace=true;
                                 setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
                             }else{

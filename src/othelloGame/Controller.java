@@ -68,22 +68,26 @@ public class Controller {
             }
         }
         // TODO remove these after tessting board[3][5]=AI;
-        board[0][0]=HU;
-        board[2][0]=HU;
-        board[0][2]=HU;
-        board[2][4]=HU;
-        board[4][0]=HU;
-        board[0][4]=HU;
-        board[4][2]=HU;
-        board[5][5]=HU;
-        board[1][1]=AI;
-        board[1][2]=AI;
-        board[1][3]=AI;
-        board[2][1]=AI;
-        board[3][1]=AI;
-        board[3][2]=AI;
-        board[2][3]=AI;
 
+        board[0][0]=AI;
+        board[0][7]=AI;
+        board[7][7]=AI;
+        board[7][0]=AI;
+        board[7][3]=AI;
+        board[0][3]=AI;
+        board[0][3]=AI;
+        board[0][3]=AI;
+        board[3][7]=AI;
+        board[3][0]=AI;
+        board[3][1]=HU;
+        board[5][4]=AI;
+        board[2][5]=HU;
+        board[1][6]=HU;
+        board[2][4]=HU;
+        board[2][6]=HU;
+        board[3][6]=HU;
+        board[4][6]=HU;
+        board[4][5]=HU;
 
 
 
@@ -154,21 +158,11 @@ public class Controller {
             for(int x = row-1; x<=row+1; x++){
                 for(int y = col-1;y<=col+1;y++){
                     if(x>=0 && x<board.length && y>=0 && y<board[0].length){
-                        switch (player){
-                            //Different comparisons if human or ai calls this method
-                            case HU:
-                                if(board[x][y]==AI){
-                                    ok=true;
-                                    possiblePlacements.x.add(x);
-                                    possiblePlacements.y.add(y);
+                        if(board[x][y]!=player && board[x][y]!=EM){
+                            ok=true;
+                            possiblePlacements.x.add(x);
+                            possiblePlacements.y.add(y);
 
-                                }
-
-                                break;
-
-                            case AI:
-
-                                break;
                         }
                     }
                 }
@@ -208,157 +202,143 @@ public class Controller {
         /**traverse the array from posXY in all directions where there is opposing color adjacent to posXY, if
          * you meet a marker of your color along the trajectory put the in the collection
          */
-        switch (player){
-            case HU:
-                //checks for every adjacent marker in list
-                for(int i = 0; i<numberOfPossiblePlacements;i++){
-                    int x = possiblePlacements.x.pop();
-                    int y = possiblePlacements.y.pop();
+        for(int i = 0; i<numberOfPossiblePlacements;i++){
+            int x = possiblePlacements.x.pop();
+            int y = possiblePlacements.y.pop();
 
-                    //check in all directions of posXY
+            //check in all directions of posXY
 
-                    //up-left
-                    if(x<posX && y<posY){
+            //up-left
+            if(x<posX && y<posY){
 
-                        while(board[x][y]==AI){
-                            x--;
-                            y--;
-                            if((x>=0 && y>=0)){
-                                /*if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                //    break;
-                                }
-                            }
-                        }
-                    }
-                    //up
-                    if(x<posX && y==posY){
-
-                        while(board[x][y]==AI){
-                            x--;
-                            if(x>=0){
-                                /*if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                //    break;
-                                }
-                            }
-                        }
-
-                    }
-                    //up-right
-                    if(x<posX && y>posY){
-                        while(board[x][y]==AI){
-                            x--;
-                            y++;
-                            if(x>=0&&y<board.length){
-                               /* if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                  //  break;
-                                }
-                            }
-                        }
-
-                    }
-                    //left
-                    if(x==posX && y<posY){
-                        while(board[x][y]==AI){
-                            y--;
-                            if(y>=0){
-                               /* if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                  //  break;
-                                }
-                            }
-                        }
-                    }
-                    //right
-                    if(x==posX && y>posY){
-                        while(board[x][y]==AI){
-                            y++;
-                            if(y<board.length){
-                                /*if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                    //break;
-                                }
-                            }
-                        }
-                    }
-                    //down-left
-                    if(x>posX && y<posY){
-                        while(board[x][y]==AI){
-                            x++;
-                            y--;
-                            if(x<board.length && y>=0){
-                                /*if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                  //  break;
-                                }
-                            }
-                        }
-                    }
-                    //down
-                    if(x>posX && y==posY){
-                        while(board[x][y]==AI){
-                            x++;
-                            if(x<board.length){
-                              /*  if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                  //  break;
-                                }
-                            }
-                        }
-                    }
-                    //down-right
-                    if(x>posX && y>posY){
-                        while(board[x][y]==AI){
-                            x++;
-                            y++;
-                            if(x<board.length && y<board.length){
-                               /* if(board[x][y]==EM){
-                                    break;
-                                }*/
-                                if(board[x][y]==HU){
-                                    posXYOfEndMarkers.x.add(x);
-                                    posXYOfEndMarkers.y.add(y);
-                                //    break;
-                                }
-                            }
-                        }
-
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    x--;
+                    y--;
+                    if((x<0 || y<0)){
+                        break;
                     }
 
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+                    }
                 }
-                break;
-            case AI:
-                break;
+            }
+            //up
+            if(x<posX && y==posY){
+
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    x--;
+                    if(x<0){
+                        break;
+                    }
+
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+                    }
+                }
+
+            }
+            //up-right
+            if(x<posX && y>posY){
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    x--;
+                    y++;
+                    if(x<0||y>=board.length){
+                        break;
+                    }
+
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+                    }
+                }
+
+            }
+            //left
+            if(x==posX && y<posY){
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    y--;
+                    if(y<0){
+                        break;
+                    }
+
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+                    }
+                }
+            }
+
+            //right
+            if(x==posX && y>posY){
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    y++;
+                    if(y>=board.length){
+                        break;
+                    }
+
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+
+                    }
+                }
+            }
+            //down-left
+            if(x>posX && y<posY){
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    x++;
+                    y--;
+                    if(x>=board.length || y<0) {
+                        break;
+                    }
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+                    }
+                }
+            }
+            //down
+            if(x>posX && y==posY){
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    x++;
+                    if(x>=board.length){
+                        break;
+                    }
+
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+                    }
+                }
+            }
+            //down-right
+            if(x>posX && y>posY){
+                while(board[x][y]!=player && board[x][y]!=EM){
+                    x++;
+                    y++;
+                    if(x>=board.length || y>=board.length) {
+                        break;
+                    }
+
+                    if(board[x][y]==player){
+                        posXYOfEndMarkers.x.add(x);
+                        posXYOfEndMarkers.y.add(y);
+                        break;
+                    }
+                }
+
+            }
+
         }
 
         System.out.println(posXYOfEndMarkers.toString());
