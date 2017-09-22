@@ -10,6 +10,7 @@ import static othelloGame.Player.EM;
 import static othelloGame.Player.HU;
 
 /**Simple yet functional game-board ui.
+ * TODO add some ui elements ie scoreboard
  * Created by Patrik Lind
  */
 public class OthelloBoard extends JPanel{
