@@ -88,6 +88,8 @@ public class Controller {
         board[3][6]=HU;
         board[4][6]=HU;
         board[4][5]=HU;
+        board[2][3]=AI;
+        board[0][6]=AI;
 
 
 
@@ -198,6 +200,9 @@ public class Controller {
         Placements posXYOfEndMarkers = new Placements();
         posXYOfEndMarkers.posX=posX;
         posXYOfEndMarkers.posY=posY;
+        Placements markersToTurn = new Placements();
+        markersToTurn.posX=posX;
+        markersToTurn.posY=posY;
 
         /**traverse the array from posXY in all directions where there is opposing color adjacent to posXY, if
          * you meet a marker of your color along the trajectory put the in the collection
@@ -211,24 +216,46 @@ public class Controller {
             //up-left
             if(x<posX && y<posY){
 
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
                     x--;
                     y--;
                     if((x<0 || y<0)){
                         break;
                     }
 
+
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
                         break;
                     }
+                }
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
                 }
             }
             //up
             if(x<posX && y==posY){
 
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
+
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
                     x--;
                     if(x<0){
                         break;
@@ -237,14 +264,29 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
+
                         break;
                     }
                 }
-
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                }
             }
             //up-right
             if(x<posX && y>posY){
+
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
+
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
+
                     x--;
                     y++;
                     if(x<0||y>=board.length){
@@ -254,14 +296,29 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
+
                         break;
                     }
                 }
-
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                }
             }
             //left
             if(x==posX && y<posY){
+
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
+
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
+
                     y--;
                     if(y<0){
                         break;
@@ -270,14 +327,30 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
+
                         break;
                     }
+                }
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
                 }
             }
 
             //right
             if(x==posX && y>posY){
+
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
+
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
+
                     y++;
                     if(y>=board.length){
                         break;
@@ -286,29 +359,62 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
+
                         break;
 
                     }
                 }
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                }
             }
             //down-left
             if(x>posX && y<posY){
+
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
+
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
+
                     x++;
                     y--;
                     if(x>=board.length || y<0) {
                         break;
                     }
+
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
+
                         break;
                     }
+                }
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
                 }
             }
             //down
             if(x>posX && y==posY){
+
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
+
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
+
                     x++;
                     if(x>=board.length){
                         break;
@@ -317,32 +423,60 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
                         break;
                     }
+                }
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
                 }
             }
             //down-right
             if(x>posX && y>posY){
+
+                int markersToTurnPlaced=0;
+                boolean foundEndMarker=false;
+
                 while(board[x][y]!=player && board[x][y]!=EM){
+
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        markersToTurn.x.add(x);
+                        markersToTurn.y.add(y);
+                        markersToTurnPlaced++;
+                    }
+
                     x++;
                     y++;
                     if(x>=board.length || y>=board.length) {
                         break;
                     }
 
+
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
+                        foundEndMarker=true;
                         break;
                     }
                 }
-
+                if(!foundEndMarker){
+                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                }
             }
 
         }
 
-        System.out.println(posXYOfEndMarkers.toString());
-        return posXYOfEndMarkers;
+        System.out.println("\nEnclosing markers position:\n"+posXYOfEndMarkers.toString());
+        System.out.println("\nMarkers to turn position:\n"+markersToTurn.toString());
+        return markersToTurn;
+    }
+
+    //removes the latest placed markers if there is no enclosing marker
+    private void removeLatestPlacedMarkersToTurn(int markersToTurnPlaced, Placements markersToTurn) {
+        for(int i =0; i<markersToTurnPlaced;i++){
+            markersToTurn.x.pop();
+            markersToTurn.y.pop();
+        }
     }
 
 }
