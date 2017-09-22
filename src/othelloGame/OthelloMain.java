@@ -25,7 +25,9 @@ public class OthelloMain {
         JFrame frame = new JFrame("Othello");
         frame.add(new OthelloBoard(controller));
         frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+
+        //TODO change starting location
+        frame.setLocation(2600,100);
         //frame.setResizable(false);
         frame.pack();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

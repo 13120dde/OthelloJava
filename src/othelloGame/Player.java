@@ -1,5 +1,5 @@
 package othelloGame;
 
 public enum Player {
-    HUMAN, AI, EMPTY;
+    HU, AI, EM;
 }

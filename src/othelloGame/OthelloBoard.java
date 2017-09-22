@@ -19,7 +19,7 @@ public class OthelloBoard extends JPanel{
     }
 
     private void initUi() {
-        this.setLayout(new GridLayout(cells.length,cells[0].length, 2,2));
+        this.setLayout(new GridLayout(cells.length+1,cells[0].length+1, 2,2));
         paintBoard();
 
     }
@@ -31,12 +31,12 @@ public class OthelloBoard extends JPanel{
         for(int row = 0; row<cells.length; row++) {
             for (int col = 0; col<cells[row].length; col++) {
                     cells[row][col]=null;
-                if (controller.checkGameBoard(row, col) == player.HUMAN) {
-                    cells[row][col] = new BoardCell(player.HUMAN, row, col);
+                if (controller.checkGameBoard(row, col) == player.HU) {
+                    cells[row][col] = new BoardCell(player.HU, row, col);
                 } else if (controller.checkGameBoard(row, col) == player.AI) {
                     cells[row][col] = new BoardCell(player.AI, row, col);
-                } else if (controller.checkGameBoard(row, col) == player.EMPTY) {
-                    cells[row][col] = new BoardCell(player.EMPTY, row, col);
+                } else if (controller.checkGameBoard(row, col) == player.EM) {
+                    cells[row][col] = new BoardCell(player.EM, row, col);
                 }
                 this.add(cells[row][col]);
             }
@@ -75,10 +75,17 @@ public class OthelloBoard extends JPanel{
         }
 
         private void addListener() {
+
+
             addMouseListener(new MouseListener() {
+                boolean okToPlace = false;
+
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    controller.placeMove(getPlayerInCell(), row, col);
+                    if(okToPlace){
+                        controller.placeMove(getPlayerInCell(), row, col);
+
+                    }
                 }
 
                 @Override
@@ -93,12 +100,16 @@ public class OthelloBoard extends JPanel{
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if(controller.checkValidPlacement(row,col, Player.HUMAN)){
-                        setBorder(BorderFactory.createLineBorder(Color.BLUE));
-                    }else{
-                        setBorder(BorderFactory.createLineBorder(Color.RED));
 
-                    }
+                            if(controller.checkValidPlacement(row,col, Player.HU)){
+                                okToPlace=true;
+                                setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+                            }else{
+                                okToPlace=false;
+                                setBorder(BorderFactory.createLineBorder(Color.RED,2));
+
+                            }
+
                 }
 
                 @Override
@@ -118,13 +129,13 @@ public class OthelloBoard extends JPanel{
 
         private void setPlayerColor(Player playerInCell) {
             switch (playerInCell){
-                case HUMAN:
+                case HU:
                     playerColor = Color.WHITE;
                     break;
                 case AI:
                     playerColor = Color.BLACK;
                     break;
-                case EMPTY:
+                case EM:
                     playerColor = Color.GREEN;
                     break;
             }
