@@ -6,8 +6,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import static othelloGame.Player.AI;
+import static othelloGame.Player.EM;
 import static othelloGame.Player.HU;
 
+/**Simple yet functional game-board ui.
+ * Created by Patrik Lind
+ */
 public class OthelloBoard extends JPanel{
 
     private BoardCell[][] cells;
@@ -27,19 +31,29 @@ public class OthelloBoard extends JPanel{
 
     }
 
+
+    /**Clumsy way to repaint the ui, does it from scratch instead of repainting just the cells that altered states.
+     *
+     */
     public void paintBoard() {
+
 
         this.removeAll();
 
         for(int row = 0; row<cells.length; row++) {
             for (int col = 0; col<cells[row].length; col++) {
-                    cells[row][col]=null;
+
+
+                cells[row][col]=null;
+
                 if (controller.checkGameBoard(row, col) == HU) {
                     cells[row][col] = new BoardCell(HU, row, col);
-                } else if (controller.checkGameBoard(row, col) == AI) {
+                }
+                else if (controller.checkGameBoard(row, col) == AI) {
                     cells[row][col] = new BoardCell(AI, row, col);
-                } else if (controller.checkGameBoard(row, col) == player.EM) {
-                    cells[row][col] = new BoardCell(player.EM, row, col);
+                }
+                else if (controller.checkGameBoard(row, col) == EM) {
+                    cells[row][col] = new BoardCell(EM, row, col);
                 }
                 this.add(cells[row][col]);
             }
@@ -49,7 +63,10 @@ public class OthelloBoard extends JPanel{
 
     }
 
-    public void repaintCell(int row, int col, Player player) {
+    /**Enforces the ui to repaint it depending on the current state of gameboard
+     *
+     */
+    public void repaintCell() {
 
         this.removeAll();
         paintBoard();
@@ -57,9 +74,24 @@ public class OthelloBoard extends JPanel{
 
     }
 
+    /**Just to be able to play against oneself to try the gamerules.
+     *
+     * @param player : Player
+     */
+    public void switchToOtherPlayer(Player player) {
+        if(player==AI){
+            this.player=HU;
+        }
+        if(player==HU){
+            this.player=AI;
+        }
+    }
 
+
+    /**A single cell of gameboard
+     *
+     */
     private class BoardCell extends JPanel{
-
 
         private Player playerInCell;
         private Color playerColor;
@@ -81,14 +113,13 @@ public class OthelloBoard extends JPanel{
 
 
             addMouseListener(new MouseListener() {
-                boolean okToPlace = false;
+
+                Controller.Placements placements;
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if(okToPlace){
-                        controller.placeMove(getPlayerInCell(), row, col);
-
-                    }
+                    System.err.println("PLAYER CLICK");
+                        controller.placeMove(player,placements);
                 }
 
                 @Override
@@ -103,16 +134,14 @@ public class OthelloBoard extends JPanel{
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-
-                            if(controller.checkValidPlacement(row,col, AI)){
-                                okToPlace=true;
+                    System.out.println("mouseOver: x:"+row+" y:"+col);
+                            placements = controller.checkValidPlacement(row,col,player);
+                            if(placements!=null){
                                 setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
                             }else{
-                                okToPlace=false;
                                 setBorder(BorderFactory.createLineBorder(Color.RED,2));
 
                             }
-
                 }
 
                 @Override
@@ -154,18 +183,6 @@ public class OthelloBoard extends JPanel{
             g2d.fillOval(5,5,100,100);
 
         }
-
-        public Player getPlayerInCell() {
-            return playerInCell;
-        }
-
-        public void setPlayerInCell(Player player){
-            playerInCell=player;
-            repaint();
-            validate();
-        }
-
-
     }
 
 }

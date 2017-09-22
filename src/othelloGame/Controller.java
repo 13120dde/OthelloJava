@@ -1,22 +1,32 @@
 package othelloGame;
 
-import java.util.LinkedList;
-
+import java.util.ArrayList;
 import static othelloGame.Player.AI;
 import static othelloGame.Player.EM;
 import static othelloGame.Player.HU;
 
-/**
+/**Game engine implementing the rules of the game.
+ * Rule 1: only possible to place a marker adjacent to opponent's marker(s).
+ * Rule 2: only possible to place a marker if there is a enclosing player's marker.
+ * The rules a realised the two methods: checkValidPlacement(...) & checkIfTurnable(...).
+ *
+ * This class is also responsible for the state of the board and sets up the beginning state.
  * Created by Patrik Lind
  *
  */
 public class Controller {
 
-    private class Placements {
-        LinkedList<Integer> x =new LinkedList();
-        LinkedList<Integer> y =new LinkedList();
-        int posX;
-        int posY;
+
+    /**Object holding placements related to the game-board array. Is used to store adjacent opponents on first-pass rule
+     * check and stores positions of all flippable markers on second pass rule check.
+     * Holds also the current position of marker to be placed.
+     *
+     */
+    public class Placements {
+       private ArrayList<Integer> x = new ArrayList<>();
+       private ArrayList<Integer> y = new ArrayList<>();
+       private int posX;
+       private int posY;
 
         @Override
         public String toString() {
@@ -30,24 +40,30 @@ public class Controller {
             for (Integer y: y) {
                 builder.append(y+",\t");
             }
-            return builder.toString();
+            return builder.toString()+"\n";
         }
     }
 
     Player[][] board;
     OthelloBoard ui;
     Player currentPlater;
+    boolean isRecursive = false;
 
 
-
+    /**Instantiate the game engine with and sets the size of game-board.
+     *
+     * @param row : int
+     * @param col : int
+     */
     public Controller(int row, int col){
+
         board = new Player[row][col];
         currentPlater = HU;
         stateZero();
         printBoard();
     }
 
-    /**Setups a new board
+    /**Setups a new board.
      *
      */
     private void stateZero() {
@@ -67,37 +83,11 @@ public class Controller {
 
             }
         }
-        // TODO remove these after tessting board[3][5]=AI;
-
-        board[0][0]=AI;
-        board[0][7]=AI;
-        board[7][7]=AI;
-        board[7][0]=AI;
-        board[7][3]=AI;
-        board[0][3]=AI;
-        board[0][3]=AI;
-        board[0][3]=AI;
-        board[3][7]=AI;
-        board[3][0]=AI;
-        board[3][1]=HU;
-        board[5][4]=AI;
-        board[2][5]=HU;
-        board[1][6]=HU;
-        board[2][4]=HU;
-        board[2][6]=HU;
-        board[3][6]=HU;
-        board[4][6]=HU;
-        board[4][5]=HU;
-        board[2][3]=AI;
-        board[0][6]=AI;
-
-
-
-
-
-
     }
 
+    /**Just for testing the game-tree.
+     *
+     */
     public void printBoard(){
         for (int row =0; row<board.length; row++){
             for(int col=0; col<board[row].length; col++){
@@ -107,123 +97,210 @@ public class Controller {
         }
     }
 
+    /**Returns number of rows of the game-board.
+     *
+     * @return rows: int
+     */
     public int getRowSize(){
         return board.length;
     }
 
+    /**Returns number of columns of the game-board.
+     *
+     * @return columns : int
+     */
     public int getColSize(){
         return board[0].length;
     }
 
+    /**Add ui-controller dependency.
+     *
+     * @return
+     */
     public void setUi(OthelloBoard ui) {
         this.ui = ui;
     }
 
 
-    public Player checkGameBoard(int i, int j) {
-        return board[i][j];
-    }
-
-    public void placeMove(Player playerInCell, int row, int col) {
-        System.out.println("In controller.placeMove()\n"+playerInCell+" row: "+row+" col: "+col);
-
-        if(playerInCell== EM){
-            //check if legal move
-            board[row][col] = Player.HU;
-            System.out.println("NEW VALUE "+board[row][col]);
-            //ui.repaintCell(row, col, board[row][col]);
-            ui.paintBoard();
-
-
-        }
-    }
-
-    /**First pass checks if the cell is empty and there is adjacent opponent
+    /**Returns the state of the cell at given position
      *
-     * @param row
-     * @param col
-     * @param player
-     * @return
+     * @param row : int
+     * @param col : int
+     * @return Player : ENUM Player {AI, HU, EM}
      */
-    public boolean checkValidPlacement(int row, int col, Player player) {
-        System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################");
+    public Player checkGameBoard(int row, int col) {
+        return board[row][col];
+    }
 
-        boolean ok= false;
+    /**Pass in a Placements object as argument. Places a marker on platement's posXY, iterates through the x/y lists of
+     * the object to turn all markers in the lists. One-step recursive method to chainflip when markers are being flipped.
+     *
+     * @param player : Player ENUM {AI, HU}
+     * @param placements
+     */
+    public void placeMove(Player player, Placements placements) {
+        System.err.println("##############In controller.placeMove(...)######################\n");
+
+        if(placements!=null){
+
+
+            int size = placements.x.size();
+            switch (player){
+
+                case HU:
+                    //place player-marker at posXY
+                    board[placements.posX][placements.posY] = HU;
+                    System.out.println(player+"put marker at row:"+placements.posX+" col:"+placements.posY);
+
+
+                    //turn all markers of opposing color
+                    for ( int i =0; i<size; i++) {
+
+                        //every turned marker needs in turn check if it turns other markers
+                        int x = placements.x.get(i);
+                        int y = placements.y.get(i);
+
+                        board[x][y]=HU;
+                        printBoard();
+                        isRecursive=true;
+                        Placements p = checkValidPlacement(x,y,HU);
+                        placeMove(HU,p);
+                        ui.repaintCell();
+                    }
+
+
+                    break;
+                case AI:
+
+                    //place player-marker at posXY
+                    board[placements.posX][placements.posY] = AI;
+                    System.out.println(player+"put marker at row:"+placements.posX+" col:"+placements.posY);
+
+
+                    //turn all markers of opposing color
+                    for ( int i =0; i<size; i++) {
+
+                        //every turned marker needs in turn check if it turns other markers
+                        int x = placements.x.get(i);
+                        int y = placements.y.get(i);
+
+                        board[x][y]=AI;
+                        printBoard();
+                        isRecursive=true;
+                        Placements p = checkValidPlacement(x,y,AI);
+                        placeMove(AI,p);
+                        ui.repaintCell();
+                    }
+                    break;
+            }
+            isRecursive=false;
+
+            //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.
+            ui.switchToOtherPlayer(player);
+        }
+
+    }
+
+    /**First pass checks if there is adjacent opponent, if this method is called non-recursively it checks also if
+     * current position is empy. The recursion is only done to chain-flip markers.
+     *
+     * @param row : int
+     * @param col : int
+     * @param player : Player
+     * @return placements : Placements - object holding all XY positions of gameboard where there are flippable markers
+     */
+    public Placements checkValidPlacement(int row, int col, Player player) {
+        System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################\n" +
+                "row: "+row+"col:"+col);
+
+        //need to allow recursion to place markers inf non-empty positions to be able to chain-flip
+        if(!isRecursive){
+            if(board[row][col]!=EM){
+                return null;
+            }
+        }
+
         Placements possiblePlacements = new Placements();
         possiblePlacements.posX=row;
         possiblePlacements.posY=col;
-        //Cell must be empty
-        if(board[row][col]== EM){
 
+        //Cell must be adjacent to opposing color
+        for(int x = row-1; x<=row+1; x++){
+            for(int y = col-1;y<=col+1;y++){
+                if(x>=0 && x<board.length && y>=0 && y<board[0].length){
+                    if(board[x][y]!=player && board[x][y]!=EM){
+                        possiblePlacements.x.add(x);
+                        possiblePlacements.y.add(y);
 
-            //Cell must be adjacent to opposing color
-            for(int x = row-1; x<=row+1; x++){
-                for(int y = col-1;y<=col+1;y++){
-                    if(x>=0 && x<board.length && y>=0 && y<board[0].length){
-                        if(board[x][y]!=player && board[x][y]!=EM){
-                            ok=true;
-                            possiblePlacements.x.add(x);
-                            possiblePlacements.y.add(y);
-
-                        }
                     }
                 }
             }
-            System.out.println(possiblePlacements.toString());
-            //No adjacent opposing markers at pos row/col
-            if(possiblePlacements.x.isEmpty()){
-                return false; //
-            }else{
-                //second pass checks if there are endmarkers of your color
-                Placements endMarkersFound  = checkIfTurnable(possiblePlacements, player);
-                if(endMarkersFound.x.isEmpty()){
-                    return false;
-                }else{
-                    ok=true;
-                }
-
-               //thirdPass
-            }
-
         }
 
-        return ok;
+        System.out.println(possiblePlacements.toString());
+        //No adjacent opposing markers at pos row/col
+        if(possiblePlacements.x.isEmpty()){
+            return null;
+        }else{
+            //second pass checks if there are end-markers of your color and returns positions of all markers that will
+            //be flipped
+            Placements markersToTurn  = checkIfTurnable(possiblePlacements, player);
+            if(markersToTurn.x.isEmpty()){
+                return null;
+            }else{
+                return markersToTurn;
+            }
+        }
 
     }
 
+    /**Given the possiblePlacements argument, checks in all directions of adjacent opponents markers if there are
+     * any playerowned markers that enclose opponents markers.
+     *
+     * @param possiblePlacements : Placements - all adjacent markers of opposing color
+     * @param player : Player
+     * @return : Placements - filled with all turnable opponent's markers
+     */
     private Placements  checkIfTurnable(Placements possiblePlacements, Player player) {
         System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################");
 
         int posX = possiblePlacements.posX;
         int posY = possiblePlacements.posY;
         int numberOfPossiblePlacements=possiblePlacements.x.size();
+
+        //Probably redundant now since this method doesn't return endmarkers anymore, still good to have to error check
         Placements posXYOfEndMarkers = new Placements();
         posXYOfEndMarkers.posX=posX;
         posXYOfEndMarkers.posY=posY;
-        Placements markersToTurn = new Placements();
-        markersToTurn.posX=posX;
-        markersToTurn.posY=posY;
+
+        //Was too much hassle adding and removing in one single list, appends all result at the end
+        Placements upLeft = new Placements();
+        Placements up= new Placements();
+        Placements upRight= new Placements();
+        Placements left= new Placements();
+        Placements right= new Placements();
+        Placements downLeft= new Placements();
+        Placements down= new Placements();
+        Placements downRight= new Placements();
 
         /**traverse the array from posXY in all directions where there is opposing color adjacent to posXY, if
          * you meet a marker of your color along the trajectory put the in the collection
          */
         for(int i = 0; i<numberOfPossiblePlacements;i++){
-            int x = possiblePlacements.x.pop();
-            int y = possiblePlacements.y.pop();
+            int x = possiblePlacements.x.get(i);
+            int y = possiblePlacements.y.get(i);
 
-            //check in all directions of posXY
+            //Checking in all directions of posXY in one single large method, TODO split into seperate methods
 
             //up-left
             if(x<posX && y<posY){
 
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        upLeft.x.add(x);
+                        upLeft.y.add(y);
                     }
                     x--;
                     y--;
@@ -235,26 +312,24 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
                         break;
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    upLeft = new Placements();
                 }
             }
+
             //up
             if(x<posX && y==posY){
-
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
 
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        up.x.add(x);
+                        up.y.add(y);
                     }
                     x--;
                     if(x<0){
@@ -264,27 +339,25 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
 
                         break;
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    up = new Placements();
                 }
+
             }
             //up-right
             if(x<posX && y>posY){
-
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
 
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        upRight.x.add(x);
+                        upRight.y.add(y);
                     }
 
                     x--;
@@ -296,27 +369,25 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
 
                         break;
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    upRight = new Placements();
                 }
+
             }
             //left
             if(x==posX && y<posY){
-
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
 
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        left.x.add(x);
+                        left.y.add(y);
                     }
 
                     y--;
@@ -327,28 +398,25 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
 
                         break;
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    left = new Placements();
                 }
             }
 
             //right
             if(x==posX && y>posY){
-
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
 
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        right.x.add(x);
+                        right.y.add(y);
                     }
 
                     y++;
@@ -359,28 +427,25 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
 
                         break;
 
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    right = new Placements();
                 }
             }
             //down-left
             if(x>posX && y<posY){
-
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
 
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        downLeft.x.add(x);
+                        downLeft.y.add(y);
                     }
 
                     x++;
@@ -392,27 +457,24 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
 
                         break;
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    downLeft = new Placements();
                 }
             }
             //down
             if(x>posX && y==posY){
-
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
 
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        down.x.add(x);
+                        down.y.add(y);
                     }
 
                     x++;
@@ -423,26 +485,24 @@ public class Controller {
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
+
                         break;
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    down = new Placements();
                 }
             }
             //down-right
             if(x>posX && y>posY){
-
-                int markersToTurnPlaced=0;
-                boolean foundEndMarker=false;
+                boolean foundEndMarker = false;
 
                 while(board[x][y]!=player && board[x][y]!=EM){
 
                     if(board[x][y]!=player && board[x][y]!=EM){
-                        markersToTurn.x.add(x);
-                        markersToTurn.y.add(y);
-                        markersToTurnPlaced++;
+                        downRight.x.add(x);
+                        downRight.y.add(y);
                     }
 
                     x++;
@@ -451,32 +511,89 @@ public class Controller {
                         break;
                     }
 
-
                     if(board[x][y]==player){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
-                        foundEndMarker=true;
+                        foundEndMarker = true;
+
                         break;
                     }
                 }
                 if(!foundEndMarker){
-                    removeLatestPlacedMarkersToTurn(markersToTurnPlaced, markersToTurn);
+                    downRight = new Placements();
                 }
+
             }
 
         }
 
+        Placements markersToTurn = concatAllPlacments(upLeft,up,upRight,left,right,downLeft,down,downRight,posX,posY);
         System.out.println("\nEnclosing markers position:\n"+posXYOfEndMarkers.toString());
         System.out.println("\nMarkers to turn position:\n"+markersToTurn.toString());
         return markersToTurn;
     }
 
-    //removes the latest placed markers if there is no enclosing marker
-    private void removeLatestPlacedMarkersToTurn(int markersToTurnPlaced, Placements markersToTurn) {
-        for(int i =0; i<markersToTurnPlaced;i++){
-            markersToTurn.x.pop();
-            markersToTurn.y.pop();
-        }
-    }
+    /**Append all possible results to one Placement object.
+     *
+     * @param upLeft
+     * @param upRight
+     * @param up
+     * @param left
+     * @param right
+     * @param downLeft
+     * @param down
+     * @param downRight
+     * @param posX
+     * @param posY
+     * @return : Placement - filled with all opponent's markers that will be flipped.
+     */
+    private Placements concatAllPlacments(Placements upLeft, Placements upRight, Placements up, Placements left, Placements right, Placements downLeft, Placements down, Placements downRight, int posX, int posY) {
 
+
+        Placements allMarkersToReturn = new Placements();
+        allMarkersToReturn.posX=posX;
+        allMarkersToReturn.posY=posY;
+
+        if(!upLeft.x.isEmpty()){
+            allMarkersToReturn.x.addAll(upLeft.x);
+            allMarkersToReturn.y.addAll(upLeft.y);
+        }
+
+        if(!up.x.isEmpty()){
+            allMarkersToReturn.x.addAll(up.x);
+            allMarkersToReturn.y.addAll(up.y);
+        }
+
+        if(!upRight.x.isEmpty()){
+            allMarkersToReturn.x.addAll(upRight.x);
+            allMarkersToReturn.y.addAll(upRight.y);
+        }
+
+        if(!left.x.isEmpty()){
+            allMarkersToReturn.x.addAll(left.x);
+            allMarkersToReturn.y.addAll(left.y);
+        }
+
+        if(!right.x.isEmpty()){
+            allMarkersToReturn.x.addAll(right.x);
+            allMarkersToReturn.y.addAll(right.y);
+        }
+
+        if(!downLeft.x.isEmpty()){
+            allMarkersToReturn.x.addAll(downLeft.x);
+            allMarkersToReturn.y.addAll(downLeft.y);
+        }
+
+        if(!down.x.isEmpty()){
+            allMarkersToReturn.y.addAll(down.y);
+            allMarkersToReturn.x.addAll(down.x);
+        }
+
+        if(!downRight.x.isEmpty()){
+            allMarkersToReturn.x.addAll(downRight.x);
+            allMarkersToReturn.y.addAll(downRight.y);
+        }
+
+        return allMarkersToReturn;
+    }
 }
