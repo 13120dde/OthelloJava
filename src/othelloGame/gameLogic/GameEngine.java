@@ -1,15 +1,19 @@
-package othelloGame;
+package othelloGame.gameLogic;
+
+import othelloGame.OthelloBoard;
 
 import java.util.ArrayList;
 
-import static othelloGame.GameState.BoardState.EM;
-import static othelloGame.GameState.BoardState.HU;
-import static othelloGame.GameState.BoardState.AI;
+import static othelloGame.gameLogic.GameState.BoardState.EM;
+import static othelloGame.gameLogic.GameState.BoardState.HU;
+import static othelloGame.gameLogic.GameState.BoardState.AI;
 
 /**Game engine implementing the rules of the game.
- * Rule 1: only possible to place a marker adjacent to opponent's marker(s).
- * Rule 2: only possible to place a marker if there is a enclosing player's marker.
- * The rules a realised the two methods: checkValidPlacement(...) & checkIfTurnable(...).
+ *
+ * Rule 1: Can only place a marker in a empty cell.
+ * Rule 2: Only possible to place a marker adjacent to opponent's marker(s).
+ * Rule 3: Only possible to place a marker if there is a enclosing player's marker.
+ * The rules a realised by the two methods: checkValidPlacement(...) & checkIfTurnable(...).
  *
  * Created by Patrik Lind ,13120dde@gmail.com
  */
@@ -43,28 +47,22 @@ public class GameEngine {
         }
     }
 
-  //  Player[][] board;
+    //Game engine variables
     OthelloBoard ui;
     GameState gameBoard;
-    GameState.BoardState currentPlater;
+    GameState.BoardState playerInTurn;
     boolean isRecursive = false;
+    boolean treeCreated = false;
 
-
-    /**Instantiate the game engine with desired dimensions and sets the size of game-board.
-     *
-     * @param row : int
-     * @param col : int
+    /**Instantiate the game engine with GameState object passed in as argument.
+     * @param gameState
      */
-    public GameEngine(int row, int col){
+    public GameEngine(GameState gameState){
 
-        //board = new Player[row][col];
-        currentPlater = HU;
-        gameBoard = new GameState(row,col);
+        playerInTurn = HU;
+        gameBoard = gameState;
+
     }
-
-
-
-
 
     /**Returns number of rows of the game-board.
      *
@@ -82,6 +80,15 @@ public class GameEngine {
         return gameBoard.getBoardColSize();
     }
 
+    /**Called by ai to let it generate a gametree.
+     *
+     * @param treeCreated : boolean
+     */
+    public void setTreeCreated(boolean treeCreated) {
+        this.treeCreated = treeCreated;
+    }
+
+
     /**Add ui-controller dependency.
      *
      * @return
@@ -97,8 +104,18 @@ public class GameEngine {
      * @param col : int
      * @return Player : ENUM Player {AI, HU, EM}
      */
-    public GameState.BoardState checkGameBoard(int row, int col) {
+    public GameState.BoardState checkGameBoard(GameState gameBoard,int row, int col) {
         return gameBoard.getStateInCell(row,col);
+    }
+
+    public void switchPlayer(GameState.BoardState state){
+        if(state==AI){
+            playerInTurn = HU;
+        }
+        if(state==HU){
+            playerInTurn =AI;
+        }
+
     }
 
     /**Pass in a Placements object as argument. Places a marker on platement's posXY, iterates through the x/y lists of
@@ -107,10 +124,11 @@ public class GameEngine {
      * @param state: BoardState ENUM {AI, HU}
      * @param placements
      */
-    public void placeMove(GameState.BoardState state, Placements placements) {
-        System.err.println("##############In controller.placeMove(...)######################\n");
+    public void placeMove(GameState gameBoard,GameState.BoardState state, Placements placements) {
+        System.err.println("##############In gameEngine.placeMove(...)######################\n");
 
-        if(placements!=null){
+
+        if(placements!=null && state == playerInTurn){
 
 
             int size = placements.x.size();
@@ -120,7 +138,7 @@ public class GameEngine {
 
                     //place player-marker at posXY
                     gameBoard.setBoardStateInCell(placements.posX,placements.posY, HU);
-                    System.out.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
+                    System.err.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -130,12 +148,12 @@ public class GameEngine {
                         int y = placements.y.get(i);
 
                         gameBoard.setBoardStateInCell(x,y, HU);
-                        gameBoard.printBoard();
+                        System.err.println(gameBoard.toString());
 
                         //recursion to handle chain-flipping
                         isRecursive=true;
-                        Placements p = checkValidPlacement(x,y, HU);
-                        placeMove(HU,p);
+                        Placements p = checkValidPlacement(x,y, gameBoard,HU);
+                        placeMove(gameBoard,HU,p);
                         ui.repaintCell();
                     }
 
@@ -146,7 +164,7 @@ public class GameEngine {
 
                     //place player-marker at posXY
                     gameBoard.setBoardStateInCell(placements.posX,placements.posY, AI);
-                    System.out.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
+                    System.err.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -156,20 +174,26 @@ public class GameEngine {
                         int y = placements.y.get(i);
 
                         gameBoard.setBoardStateInCell(x,y, AI);
-                        gameBoard.printBoard();
+                        System.err.println(gameBoard.toString());
+
 
                         //recursion to handle chain-flipping
                         isRecursive=true;
-                        Placements p = checkValidPlacement(x,y, AI);
-                        placeMove(AI,p);
+                        Placements p = checkValidPlacement(x,y, gameBoard,AI);
+                        placeMove(gameBoard,AI,p);
                         ui.repaintCell();
                     }
                     break;
             }
             isRecursive=false;
 
+            //Let the AI to build its tree breath first.
+            if(treeCreated){
+                switchPlayer(state);
+            }
+
             //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.
-            ui.switchToOtherPlayer(state);
+           // ui.switchToOtherPlayer(state);
         }
 
     }
@@ -182,7 +206,7 @@ public class GameEngine {
      * @param state : Player
      * @return placements : Placements - object holding all XY positions of gameboard where there are flippable markers
      */
-    public Placements checkValidPlacement(int row, int col, GameState.BoardState state) {
+    public Placements checkValidPlacement(int row, int col, GameState gameBoard,GameState.BoardState state) {
         System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################\n" +
                 "row: "+row+"col:"+col);
 
@@ -218,7 +242,7 @@ public class GameEngine {
         }else{
             //second pass checks if there are end-markers of your color and returns positions of all markers that will
             //be flipped
-            Placements markersToTurn  = checkIfTurnable(possiblePlacements, state);
+            Placements markersToTurn  = checkIfTurnable(gameBoard,possiblePlacements, state);
             if(markersToTurn.x.isEmpty()){
                 return null;
             }else{
@@ -235,7 +259,7 @@ public class GameEngine {
      * @param state : Player
      * @return : Placements - filled with all turnable opponent's markers
      */
-    private Placements  checkIfTurnable(Placements possiblePlacements,
+    private Placements  checkIfTurnable(GameState gameBoard,Placements possiblePlacements,
                                         GameState.BoardState state) {
         System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################");
 
@@ -503,7 +527,7 @@ public class GameEngine {
 
         }
 
-        Placements markersToTurn = concatAllPlacments(upLeft,up,upRight,left,right,downLeft,down,downRight,posX,posY);
+        Placements markersToTurn = appendPlacements(upLeft,up,upRight,left,right,downLeft,down,downRight,posX,posY);
         System.out.println("\nEnclosing markers position:\n"+posXYOfEndMarkers.toString());
         System.out.println("\nMarkers to turn position:\n"+markersToTurn.toString());
         return markersToTurn;
@@ -523,7 +547,7 @@ public class GameEngine {
      * @param posY
      * @return : Placement - filled with all opponent's markers that will be flipped.
      */
-    private Placements concatAllPlacments(Placements upLeft, Placements upRight, Placements up, Placements left, Placements right, Placements downLeft, Placements down, Placements downRight, int posX, int posY) {
+    private Placements appendPlacements(Placements upLeft, Placements upRight, Placements up, Placements left, Placements right, Placements downLeft, Placements down, Placements downRight, int posX, int posY) {
 
 
         Placements allMarkersToReturn = new Placements();

@@ -1,13 +1,16 @@
 package othelloGame;
 
+import othelloGame.gameLogic.GameEngine;
+import othelloGame.gameLogic.GameState;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import static othelloGame.GameState.BoardState.EM;
-import static othelloGame.GameState.BoardState.HU;
-import static othelloGame.GameState.BoardState.AI;
+import static othelloGame.gameLogic.GameState.BoardState.EM;
+import static othelloGame.gameLogic.GameState.BoardState.HU;
+import static othelloGame.gameLogic.GameState.BoardState.AI;
 
 /**Simple yet functional game-board ui.
  * TODO add some ui elements ie scoreboard
@@ -16,15 +19,19 @@ import static othelloGame.GameState.BoardState.AI;
 public class OthelloBoard extends JPanel{
 
     private BoardCell[][] cells;
-    private GameState.BoardState player = AI;
+    private GameState.BoardState player = HU;
     private GameEngine controller;
+    private GameState gameBoard;
 
-    public OthelloBoard(GameEngine controller){
+    public OthelloBoard(GameEngine controller, GameState gameBoard){
         this.controller=controller;
+        this.gameBoard=gameBoard;
+
         cells = new BoardCell[controller.getRowSize()][controller.getColSize()];
         controller.setUi(this);
         initUi();
     }
+
 
     private void initUi() {
         this.setLayout(new GridLayout(cells.length+1,cells[0].length+1, 2,2));
@@ -47,13 +54,13 @@ public class OthelloBoard extends JPanel{
 
                 cells[row][col]=null;
 
-                if (controller.checkGameBoard(row, col) == HU) {
+                if (controller.checkGameBoard(gameBoard,row, col) == HU) {
                     cells[row][col] = new BoardCell(HU, row, col);
                 }
-                else if (controller.checkGameBoard(row, col) == AI) {
+                else if (controller.checkGameBoard(gameBoard,row, col) == AI) {
                     cells[row][col] = new BoardCell(AI, row, col);
                 }
-                else if (controller.checkGameBoard(row, col) == EM) {
+                else if (controller.checkGameBoard(gameBoard,row, col) == EM) {
                     cells[row][col] = new BoardCell(EM, row, col);
                 }
                 this.add(cells[row][col]);
@@ -120,7 +127,7 @@ public class OthelloBoard extends JPanel{
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     System.err.println("PLAYER CLICK");
-                        controller.placeMove(player,placements);
+                        controller.placeMove(gameBoard,player,placements);
                 }
 
                 @Override
@@ -136,7 +143,7 @@ public class OthelloBoard extends JPanel{
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     System.out.println("mouseOver: x:"+row+" y:"+col);
-                            placements = controller.checkValidPlacement(row,col,player);
+                            placements = controller.checkValidPlacement(row,col,gameBoard,player);
                             if(placements!=null){
                                 setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
                             }else{
