@@ -1,20 +1,19 @@
 package othelloGame;
 
 import java.util.ArrayList;
-import static othelloGame.Player.AI;
-import static othelloGame.Player.EM;
-import static othelloGame.Player.HU;
+
+import static othelloGame.GameState.BoardState.EM;
+import static othelloGame.GameState.BoardState.HU;
+import static othelloGame.GameState.BoardState.AI;
 
 /**Game engine implementing the rules of the game.
  * Rule 1: only possible to place a marker adjacent to opponent's marker(s).
  * Rule 2: only possible to place a marker if there is a enclosing player's marker.
  * The rules a realised the two methods: checkValidPlacement(...) & checkIfTurnable(...).
  *
- * This class is also responsible for the state of the board and sets up the beginning state.
- * Created by Patrik Lind
- *
+ * Created by Patrik Lind ,13120dde@gmail.com
  */
-public class Controller {
+public class GameEngine {
 
 
     /**Object holding placements related to the game-board array. Is used to store adjacent opponents on first-pass rule
@@ -44,65 +43,35 @@ public class Controller {
         }
     }
 
-    Player[][] board;
+  //  Player[][] board;
     OthelloBoard ui;
-    Player currentPlater;
+    GameState gameBoard;
+    GameState.BoardState currentPlater;
     boolean isRecursive = false;
 
 
-    /**Instantiate the game engine with and sets the size of game-board.
+    /**Instantiate the game engine with desired dimensions and sets the size of game-board.
      *
      * @param row : int
      * @param col : int
      */
-    public Controller(int row, int col){
+    public GameEngine(int row, int col){
 
-        board = new Player[row][col];
+        //board = new Player[row][col];
         currentPlater = HU;
-        stateZero();
-        printBoard();
+        gameBoard = new GameState(row,col);
     }
 
-    /**Setups a new board.
-     *
-     */
-    private void stateZero() {
-        for (int row =0; row<board.length; row++){
-            for(int col=0; col<board[row].length; col++){
-                if((row==3 && col==3)||(row==4 &&col==4)){
 
-                    board[row][col]=Player.AI;
 
-                }
-                else if((row==3 && col==4)||(row==4 &&col==3)){
-                    board[row][col]= HU;
 
-                }else{
-                    board[row][col]= EM;
-                }
-
-            }
-        }
-    }
-
-    /**Just for testing the game-tree.
-     *
-     */
-    public void printBoard(){
-        for (int row =0; row<board.length; row++){
-            for(int col=0; col<board[row].length; col++){
-                System.out.print(board[row][col]+"\t");
-            }
-            System.out.println("\n");
-        }
-    }
 
     /**Returns number of rows of the game-board.
      *
      * @return rows: int
      */
     public int getRowSize(){
-        return board.length;
+        return gameBoard.getBoardRowSize();
     }
 
     /**Returns number of columns of the game-board.
@@ -110,7 +79,7 @@ public class Controller {
      * @return columns : int
      */
     public int getColSize(){
-        return board[0].length;
+        return gameBoard.getBoardColSize();
     }
 
     /**Add ui-controller dependency.
@@ -128,30 +97,30 @@ public class Controller {
      * @param col : int
      * @return Player : ENUM Player {AI, HU, EM}
      */
-    public Player checkGameBoard(int row, int col) {
-        return board[row][col];
+    public GameState.BoardState checkGameBoard(int row, int col) {
+        return gameBoard.getStateInCell(row,col);
     }
 
     /**Pass in a Placements object as argument. Places a marker on platement's posXY, iterates through the x/y lists of
      * the object to turn all markers in the lists. One-step recursive method to chainflip when markers are being flipped.
      *
-     * @param player : Player ENUM {AI, HU}
+     * @param state: BoardState ENUM {AI, HU}
      * @param placements
      */
-    public void placeMove(Player player, Placements placements) {
+    public void placeMove(GameState.BoardState state, Placements placements) {
         System.err.println("##############In controller.placeMove(...)######################\n");
 
         if(placements!=null){
 
 
             int size = placements.x.size();
-            switch (player){
+            switch (state){
 
                 case HU:
-                    //place player-marker at posXY
-                    board[placements.posX][placements.posY] = HU;
-                    System.out.println(player+"put marker at row:"+placements.posX+" col:"+placements.posY);
 
+                    //place player-marker at posXY
+                    gameBoard.setBoardStateInCell(placements.posX,placements.posY, HU);
+                    System.out.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -160,22 +129,24 @@ public class Controller {
                         int x = placements.x.get(i);
                         int y = placements.y.get(i);
 
-                        board[x][y]=HU;
-                        printBoard();
+                        gameBoard.setBoardStateInCell(x,y, HU);
+                        gameBoard.printBoard();
+
+                        //recursion to handle chain-flipping
                         isRecursive=true;
-                        Placements p = checkValidPlacement(x,y,HU);
+                        Placements p = checkValidPlacement(x,y, HU);
                         placeMove(HU,p);
                         ui.repaintCell();
                     }
 
 
                     break;
+
                 case AI:
 
                     //place player-marker at posXY
-                    board[placements.posX][placements.posY] = AI;
-                    System.out.println(player+"put marker at row:"+placements.posX+" col:"+placements.posY);
-
+                    gameBoard.setBoardStateInCell(placements.posX,placements.posY, AI);
+                    System.out.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -184,10 +155,12 @@ public class Controller {
                         int x = placements.x.get(i);
                         int y = placements.y.get(i);
 
-                        board[x][y]=AI;
-                        printBoard();
+                        gameBoard.setBoardStateInCell(x,y, AI);
+                        gameBoard.printBoard();
+
+                        //recursion to handle chain-flipping
                         isRecursive=true;
-                        Placements p = checkValidPlacement(x,y,AI);
+                        Placements p = checkValidPlacement(x,y, AI);
                         placeMove(AI,p);
                         ui.repaintCell();
                     }
@@ -196,7 +169,7 @@ public class Controller {
             isRecursive=false;
 
             //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.
-            ui.switchToOtherPlayer(player);
+            ui.switchToOtherPlayer(state);
         }
 
     }
@@ -206,16 +179,16 @@ public class Controller {
      *
      * @param row : int
      * @param col : int
-     * @param player : Player
+     * @param state : Player
      * @return placements : Placements - object holding all XY positions of gameboard where there are flippable markers
      */
-    public Placements checkValidPlacement(int row, int col, Player player) {
+    public Placements checkValidPlacement(int row, int col, GameState.BoardState state) {
         System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################\n" +
                 "row: "+row+"col:"+col);
 
         //need to allow recursion to place markers inf non-empty positions to be able to chain-flip
         if(!isRecursive){
-            if(board[row][col]!=EM){
+            if(gameBoard.getStateInCell(row,col)!= EM){
                 return null;
             }
         }
@@ -227,8 +200,9 @@ public class Controller {
         //Cell must be adjacent to opposing color
         for(int x = row-1; x<=row+1; x++){
             for(int y = col-1;y<=col+1;y++){
-                if(x>=0 && x<board.length && y>=0 && y<board[0].length){
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                if(x>=0 && x<gameBoard.getBoardRowSize() && y>=0 && y<gameBoard.getBoardColSize()){
+
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!= EM){
                         possiblePlacements.x.add(x);
                         possiblePlacements.y.add(y);
 
@@ -244,7 +218,7 @@ public class Controller {
         }else{
             //second pass checks if there are end-markers of your color and returns positions of all markers that will
             //be flipped
-            Placements markersToTurn  = checkIfTurnable(possiblePlacements, player);
+            Placements markersToTurn  = checkIfTurnable(possiblePlacements, state);
             if(markersToTurn.x.isEmpty()){
                 return null;
             }else{
@@ -258,10 +232,11 @@ public class Controller {
      * any playerowned markers that enclose opponents markers.
      *
      * @param possiblePlacements : Placements - all adjacent markers of opposing color
-     * @param player : Player
+     * @param state : Player
      * @return : Placements - filled with all turnable opponent's markers
      */
-    private Placements  checkIfTurnable(Placements possiblePlacements, Player player) {
+    private Placements  checkIfTurnable(Placements possiblePlacements,
+                                        GameState.BoardState state) {
         System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################");
 
         int posX = possiblePlacements.posX;
@@ -296,9 +271,10 @@ public class Controller {
             if(x<posX && y<posY){
 
                 boolean foundEndMarker = false;
-                while(board[x][y]!=player && board[x][y]!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
+
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         upLeft.x.add(x);
                         upLeft.y.add(y);
                     }
@@ -309,7 +285,7 @@ public class Controller {
                     }
 
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
@@ -325,9 +301,9 @@ public class Controller {
             if(x<posX && y==posY){
                 boolean foundEndMarker = false;
 
-                while(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         up.x.add(x);
                         up.y.add(y);
                     }
@@ -336,7 +312,7 @@ public class Controller {
                         break;
                     }
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
@@ -353,20 +329,20 @@ public class Controller {
             if(x<posX && y>posY){
                 boolean foundEndMarker = false;
 
-                while(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         upRight.x.add(x);
                         upRight.y.add(y);
                     }
 
                     x--;
                     y++;
-                    if(x<0||y>=board.length){
+                    if(x<0||y>=gameBoard.getBoardColSize()){
                         break;
                     }
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
@@ -383,9 +359,9 @@ public class Controller {
             if(x==posX && y<posY){
                 boolean foundEndMarker = false;
 
-                while(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         left.x.add(x);
                         left.y.add(y);
                     }
@@ -395,7 +371,7 @@ public class Controller {
                         break;
                     }
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
@@ -412,19 +388,19 @@ public class Controller {
             if(x==posX && y>posY){
                 boolean foundEndMarker = false;
 
-                while(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         right.x.add(x);
                         right.y.add(y);
                     }
 
                     y++;
-                    if(y>=board.length){
+                    if(y>=getColSize()){
                         break;
                     }
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
@@ -441,20 +417,20 @@ public class Controller {
             if(x>posX && y<posY){
                 boolean foundEndMarker = false;
 
-                while(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         downLeft.x.add(x);
                         downLeft.y.add(y);
                     }
 
                     x++;
                     y--;
-                    if(x>=board.length || y<0) {
+                    if(x>=gameBoard.getBoardRowSize() || y<0) {
                         break;
                     }
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
@@ -470,19 +446,19 @@ public class Controller {
             if(x>posX && y==posY){
                 boolean foundEndMarker = false;
 
-                while(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         down.x.add(x);
                         down.y.add(y);
                     }
 
                     x++;
-                    if(x>=board.length){
+                    if(x>=gameBoard.getBoardRowSize()){
                         break;
                     }
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
@@ -498,20 +474,20 @@ public class Controller {
             if(x>posX && y>posY){
                 boolean foundEndMarker = false;
 
-                while(board[x][y]!=player && board[x][y]!=EM){
+                while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
-                    if(board[x][y]!=player && board[x][y]!=EM){
+                    if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
                         downRight.x.add(x);
                         downRight.y.add(y);
                     }
 
                     x++;
                     y++;
-                    if(x>=board.length || y>=board.length) {
+                    if(x>=gameBoard.getBoardRowSize() || y>=gameBoard.getBoardColSize()) {
                         break;
                     }
 
-                    if(board[x][y]==player){
+                    if(gameBoard.getStateInCell(x,y)==state){
                         posXYOfEndMarkers.x.add(x);
                         posXYOfEndMarkers.y.add(y);
                         foundEndMarker = true;
