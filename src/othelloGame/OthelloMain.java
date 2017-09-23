@@ -10,7 +10,7 @@ import javax.swing.*;
  */
 public class OthelloMain {
 
-    private GameEngine controller;
+    private GameEngine gameEngine;
     private GameState gameState;
     private GameAI gameAI;
 
@@ -19,9 +19,9 @@ public class OthelloMain {
     }
 
     private void initGame() {
-        gameState = new GameState(8,8);
-        controller = new GameEngine(gameState);
-        gameAI = new GameAI(controller,gameState);
+        gameState = new GameState(4,4);
+        gameEngine = new GameEngine(gameState);
+        gameAI = new GameAI(gameEngine,gameState);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 createAndShowUI();
@@ -31,8 +31,8 @@ public class OthelloMain {
     }
 
     private void createAndShowUI() {
-        JFrame frame = new JFrame("Othello");
-        frame.add(new OthelloBoard(controller,gameState));
+        JFrame frame = new JFrame("Othello - by Patrik Lind");
+        frame.add(new OthelloBoard(gameEngine,gameState));
         frame.setVisible(true);
 
         //TODO change starting location

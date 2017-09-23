@@ -23,14 +23,15 @@ public class GameState {
      *
      */
     private void stateZero() {
+
         for (int row =0; row<gameBoard.length; row++){
             for(int col=0; col<gameBoard[row].length; col++){
-                if((row==3 && col==3)||(row==4 &&col==4)){
 
+                if((row==(gameBoard.length/2)-1 && col==(gameBoard.length/2)-1)||(row==gameBoard.length/2 &&col==gameBoard.length/2)){
                     gameBoard[row][col]=BoardState.AI;
-
                 }
-                else if((row==3 && col==4)||(row==4 &&col==3)){
+
+                else if((row==(gameBoard.length/2)-1 && col==gameBoard.length/2)||(row==gameBoard.length/2 &&col==(gameBoard.length/2)-1)){
                     gameBoard[row][col]= BoardState.HU;
 
                 }else{
