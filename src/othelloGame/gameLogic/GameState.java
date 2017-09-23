@@ -6,12 +6,15 @@ package othelloGame.gameLogic;
 public class GameState {
 
 
+
     public enum BoardState{
         AI, HU, EM;
     }
 
     private BoardState[][] gameBoard ;
     private int playerHUScore, playerAIScore;
+    private int remainingTurns=0;
+
 
     public GameState(int row, int col){
         gameBoard = new BoardState[row][col];
@@ -36,11 +39,16 @@ public class GameState {
 
                 }else{
                     gameBoard[row][col]= BoardState.EM;
+                    remainingTurns++;
                 }
 
             }
         }
     }
+    public int getRemainingTurns() {
+       return remainingTurns;
+    }
+
 
     /**Prints out the board in it's current state.
      *
@@ -104,6 +112,7 @@ public class GameState {
      */
     protected void setBoardStateInCell(int posX, int posY, BoardState state) {
         gameBoard[posX][posY] = state;
+        remainingTurns--;
     }
 
     /**Traverses the game-board array and calculates scores for each player.
@@ -130,7 +139,7 @@ public class GameState {
      *
      * @return clonedGameState : GameState
      */
-    public GameState getCopyOfCurrentGameState(){
+    public GameState getClonedGameState(){
         try {
             return (GameState) this.clone();
         } catch (CloneNotSupportedException e) {
@@ -143,8 +152,7 @@ public class GameState {
     @Override
     public String toString(){
         calculateScores();
-        int movesLeft = (gameBoard.length*gameBoard[0].length)-(playerHUScore+playerAIScore);
-        return  printBoard()+"\n"+"Human score: "+playerHUScore+"\nAI score:"+playerAIScore+"\nMoves left < "+movesLeft;
+        return  printBoard()+"\n"+"Human score: "+playerHUScore+"\nAI score:"+playerAIScore+"\nMoves left < "+remainingTurns;
     }
 
 }

@@ -48,11 +48,12 @@ public class GameEngine {
     }
 
     //Game engine variables
-    OthelloBoard ui;
-    GameState gameBoard;
-    GameState.BoardState playerInTurn;
-    boolean isRecursive = false;
-    boolean treeCreated = false;
+    private OthelloBoard ui;
+    private GameState gameBoard;
+    private GameState.BoardState playerInTurn;
+    private boolean isRecursive = false;
+    private boolean treeCreated = false;
+    private boolean gameEnded = false;
 
     /**Instantiate the game engine with GameState object passed in as argument.
      * @param gameState
@@ -124,11 +125,11 @@ public class GameEngine {
      * @param state: BoardState ENUM {AI, HU}
      * @param placements
      */
-    public void placeMove(GameState gameBoard,GameState.BoardState state, Placements placements) {
+    public boolean placeMove(GameState gameBoard,GameState.BoardState state, Placements placements) {
         System.err.println("##############In gameEngine.placeMove(...)######################\n");
 
 
-        if(placements!=null && state == playerInTurn){
+        if(placements!=null && state == playerInTurn && !gameEnded){
 
 
             int size = placements.x.size();
@@ -188,13 +189,20 @@ public class GameEngine {
             isRecursive=false;
 
             //Let the AI to build its tree breath first.
+
             if(treeCreated){
                 switchPlayer(state);
             }
+            if(gameBoard.getRemainingTurns()<=0){
+                gameEnded = true;
+            }
 
+            return true;
             //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.
            // ui.switchToOtherPlayer(state);
         }
+
+        return false;
 
     }
 
