@@ -1,8 +1,10 @@
 package othelloGame.gameLogic;
 
+import othelloGame.GameAI;
 import othelloGame.OthelloBoard;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import static othelloGame.gameLogic.GameState.BoardState.EM;
 import static othelloGame.gameLogic.GameState.BoardState.HU;
@@ -58,7 +60,6 @@ public class GameEngine {
     private GameAI ai;
     private boolean isRecursive = false;
     private boolean treeCreated = true;
-    private boolean gameEnded = false;
 
     /**Instantiate the game engine with GameState object passed in as argument.
      * @param gameState
@@ -76,7 +77,7 @@ public class GameEngine {
      *
      * @return rows: int
      */
-    public int getRowSize(){
+    public int getRowSize(GameState gameBoard){
         return gameBoard.getBoardRowSize();
     }
 
@@ -84,7 +85,7 @@ public class GameEngine {
      *
      * @return columns : int
      */
-    public int getColSize(){
+    public int getColSize(GameState gameBoard){
         return gameBoard.getBoardColSize();
     }
 
@@ -116,17 +117,45 @@ public class GameEngine {
         return gameBoard.getStateInCell(row,col);
     }
 
-    public void switchPlayer(GameState.BoardState state){
+    public void switchPlayer(GameState gameBoard,GameState.BoardState state){
         System.out.print(playerInTurn+" ended his turn. ");
+
+        //Switch turn to other player
         if(state==AI){
             playerInTurn = HU;
         }else if(state==HU){
             playerInTurn =AI;
-            if(treeCreated){
-                ai.choseMove();
+            System.out.println(playerInTurn+" begins his turn.");
+
+        }
+
+        //Check if next player in turn can place a move, otherwise switch back to last player
+        if(!checkIfPlayerCanPlaceAMove(gameBoard,state)){
+            switchPlayer(gameBoard,state);
+        }
+
+        //Tree need to swithch amongs player in turn to be abel to build itself
+        if(treeCreated && state==HU){
+            ai.choseMove();
+        }
+
+    }
+
+    private boolean checkIfPlayerCanPlaceAMove(GameState gameBoard, GameState.BoardState playerInTurn){
+        LinkedList<Placements> placements = new LinkedList();
+        Placements action = null;
+        for(int x =0; x<gameBoard.getBoardRowSize();x++){
+            for(int y = 0; y<gameBoard.getBoardColSize();y++){
+                action = checkValidPlacement(x,y,gameBoard,playerInTurn);
+                if(action!=null){
+                    placements.add(action);
+                }
             }
         }
-        System.out.println(playerInTurn+" begins his turn.");
+        if(placements.isEmpty()){
+            return false;
+        }
+        return true;
     }
 
     /**Pass in a Placements object as argument. Places a marker on platement's posXY, iterates through the x/y lists of
@@ -138,8 +167,7 @@ public class GameEngine {
     public boolean placeMove(GameState gameBoard,GameState.BoardState state, Placements placements) {
         System.err.println("##############In gameEngine.placeMove(...)######################");
 
-                            //Buggs out tree generation, TODO handle disablind usermoves otherwise
-        if(placements!=null && state == playerInTurn){
+        if((placements!=null)){
 
 
             int size = placements.x.size();
@@ -199,13 +227,6 @@ public class GameEngine {
 
             //Let the AI to build its tree breath first.
             ui.repaintCell();
-            if(treeCreated){
-                switchPlayer(state);
-
-            }
-            if(gameBoard.getRemainingTurns()<=0){
-                gameEnded = true;
-            }
 
             return true;
             //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.
@@ -225,8 +246,8 @@ public class GameEngine {
      * @return placements : Placements - object holding all XY positions of gameboard where there are flippable markers
      */
     public Placements checkValidPlacement(int row, int col, GameState gameBoard,GameState.BoardState state) {
-        System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################\n" +
-                "Player: "+state+"\trow: "+row+"\tcol:"+col);
+       // System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################\n" +
+         //       "Player: "+state+"\trow: "+row+"\tcol:"+col);
 
         //need to allow recursion to place markers inf non-empty positions to be able to chain-flip
         if(!isRecursive){
@@ -253,7 +274,7 @@ public class GameEngine {
             }
         }
 
-        System.out.println(possiblePlacements.toString());
+    //    System.out.println(possiblePlacements.toString());
         //No adjacent opposing markers at pos row/col
         if(possiblePlacements.x.isEmpty()){
             return null;
@@ -279,7 +300,7 @@ public class GameEngine {
      */
     private Placements  checkIfTurnable(GameState gameBoard,Placements possiblePlacements,
                                         GameState.BoardState state) {
-        System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################\n");
+     //   System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################\n");
 
         int posX = possiblePlacements.posX;
         int posY = possiblePlacements.posY;
@@ -438,7 +459,7 @@ public class GameEngine {
                     }
 
                     y++;
-                    if(y>=getColSize()){
+                    if(y>=getColSize(gameBoard)){
                         break;
                     }
 

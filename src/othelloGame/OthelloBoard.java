@@ -27,7 +27,7 @@ public class OthelloBoard extends JPanel{
         this.controller=controller;
         this.gameBoard=gameBoard;
 
-        cells = new BoardCell[controller.getRowSize()][controller.getColSize()];
+        cells = new BoardCell[controller.getRowSize(gameBoard)][controller.getColSize(gameBoard)];
         controller.setUi(this);
         initUi();
     }
@@ -127,7 +127,10 @@ public class OthelloBoard extends JPanel{
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     System.err.println("PLAYER CLICK");
-                        controller.placeMove(gameBoard,player,placements);
+                       boolean ok = controller.placeMove(gameBoard,player,placements);
+                       if(ok){
+                           controller.switchPlayer(gameBoard,player);
+                       }
                 }
 
                 @Override
