@@ -20,16 +20,20 @@ import static othelloGame.gameLogic.GameState.BoardState.AI;
 public class GameEngine {
 
 
+    public GameState.BoardState getPlayerInTurn() {
+        return playerInTurn;
+    }
+
     /**Object holding placements related to the game-board array. Is used to store adjacent opponents on first-pass rule
      * check and stores positions of all flippable markers on second pass rule check.
      * Holds also the current position of marker to be placed.
      *
      */
     public class Placements {
-       private ArrayList<Integer> x = new ArrayList<>();
-       private ArrayList<Integer> y = new ArrayList<>();
-       private int posX;
-       private int posY;
+        public ArrayList<Integer> x = new ArrayList<>();
+        public ArrayList<Integer> y = new ArrayList<>();
+        public int posX;
+        public int posY;
 
         @Override
         public String toString() {
@@ -43,7 +47,7 @@ public class GameEngine {
             for (Integer y: y) {
                 builder.append(y+",\t");
             }
-            return builder.toString()+"\n";
+            return builder.toString();
         }
     }
 
@@ -51,17 +55,20 @@ public class GameEngine {
     private OthelloBoard ui;
     private GameState gameBoard;
     private GameState.BoardState playerInTurn;
+    private GameAI ai;
     private boolean isRecursive = false;
-    private boolean treeCreated = false;
+    private boolean treeCreated = true;
     private boolean gameEnded = false;
 
     /**Instantiate the game engine with GameState object passed in as argument.
      * @param gameState
      */
-    public GameEngine(GameState gameState){
+    public GameEngine(GameState gameState, GameAI ai){
 
         playerInTurn = HU;
         gameBoard = gameState;
+        this.ai=ai;
+        ai.setController(this);
 
     }
 
@@ -110,13 +117,16 @@ public class GameEngine {
     }
 
     public void switchPlayer(GameState.BoardState state){
+        System.out.print(playerInTurn+" ended his turn. ");
         if(state==AI){
             playerInTurn = HU;
-        }
-        if(state==HU){
+        }else if(state==HU){
             playerInTurn =AI;
+            if(treeCreated){
+                ai.choseMove();
+            }
         }
-
+        System.out.println(playerInTurn+" begins his turn.");
     }
 
     /**Pass in a Placements object as argument. Places a marker on platement's posXY, iterates through the x/y lists of
@@ -126,10 +136,10 @@ public class GameEngine {
      * @param placements
      */
     public boolean placeMove(GameState gameBoard,GameState.BoardState state, Placements placements) {
-        System.err.println("##############In gameEngine.placeMove(...)######################\n");
+        System.err.println("##############In gameEngine.placeMove(...)######################");
 
-
-        if(placements!=null && state == playerInTurn && !gameEnded){
+                            //Buggs out tree generation, TODO handle disablind usermoves otherwise
+        if(placements!=null && state == playerInTurn){
 
 
             int size = placements.x.size();
@@ -139,7 +149,7 @@ public class GameEngine {
 
                     //place player-marker at posXY
                     gameBoard.setBoardStateInCell(placements.posX,placements.posY, HU);
-                    System.err.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
+                    System.err.println(state+" put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -155,7 +165,6 @@ public class GameEngine {
                         isRecursive=true;
                         Placements p = checkValidPlacement(x,y, gameBoard,HU);
                         placeMove(gameBoard,HU,p);
-                        ui.repaintCell();
                     }
 
 
@@ -165,7 +174,7 @@ public class GameEngine {
 
                     //place player-marker at posXY
                     gameBoard.setBoardStateInCell(placements.posX,placements.posY, AI);
-                    System.err.println(state+"put marker at row:"+placements.posX+" col:"+placements.posY);
+                    System.err.println(state+" put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -182,16 +191,17 @@ public class GameEngine {
                         isRecursive=true;
                         Placements p = checkValidPlacement(x,y, gameBoard,AI);
                         placeMove(gameBoard,AI,p);
-                        ui.repaintCell();
                     }
                     break;
+
             }
             isRecursive=false;
 
             //Let the AI to build its tree breath first.
-
+            ui.repaintCell();
             if(treeCreated){
                 switchPlayer(state);
+
             }
             if(gameBoard.getRemainingTurns()<=0){
                 gameEnded = true;
@@ -216,7 +226,7 @@ public class GameEngine {
      */
     public Placements checkValidPlacement(int row, int col, GameState gameBoard,GameState.BoardState state) {
         System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################\n" +
-                "row: "+row+"col:"+col);
+                "Player: "+state+"\trow: "+row+"\tcol:"+col);
 
         //need to allow recursion to place markers inf non-empty positions to be able to chain-flip
         if(!isRecursive){
@@ -269,7 +279,7 @@ public class GameEngine {
      */
     private Placements  checkIfTurnable(GameState gameBoard,Placements possiblePlacements,
                                         GameState.BoardState state) {
-        System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################");
+        System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################\n");
 
         int posX = possiblePlacements.posX;
         int posY = possiblePlacements.posY;
@@ -536,8 +546,8 @@ public class GameEngine {
         }
 
         Placements markersToTurn = appendPlacements(upLeft,up,upRight,left,right,downLeft,down,downRight,posX,posY);
-        System.out.println("\nEnclosing markers position:\n"+posXYOfEndMarkers.toString());
-        System.out.println("\nMarkers to turn position:\n"+markersToTurn.toString());
+//        System.out.println("\nEnclosing markers position:\n"+posXYOfEndMarkers.toString());
+ //       System.out.println("\nMarkers to turn position:\n"+markersToTurn.toString());
         return markersToTurn;
     }
 

@@ -1,10 +1,11 @@
 package othelloGame.gameLogic;
 
+import static othelloGame.gameLogic.GameState.BoardState.EM;
+
 /**Game state responsible for the game-board and it's state during a game.
  *
  */
 public class GameState {
-
 
 
     public enum BoardState{
@@ -12,11 +13,13 @@ public class GameState {
     }
 
     private BoardState[][] gameBoard ;
-    private int playerHUScore, playerAIScore;
-    private int remainingTurns=0;
+    public int playerHUScore, playerAIScore;
+    private int row, col;
 
 
     public GameState(int row, int col){
+        this.row=row;
+        this.col=col;
         gameBoard = new BoardState[row][col];
         stateZero();
 
@@ -38,17 +41,23 @@ public class GameState {
                     gameBoard[row][col]= BoardState.HU;
 
                 }else{
-                    gameBoard[row][col]= BoardState.EM;
-                    remainingTurns++;
+                    gameBoard[row][col]= EM;
                 }
 
             }
         }
     }
     public int getRemainingTurns() {
-       return remainingTurns;
+       int remainingTurns=0;
+       for(int i=0;i<gameBoard.length;i++){
+           for(int j=0;j<gameBoard.length;j++){
+               if(gameBoard[i][j]==EM){
+                   remainingTurns++;
+               }
+           }
+       }
+        return remainingTurns;
     }
-
 
     /**Prints out the board in it's current state.
      *
@@ -112,13 +121,12 @@ public class GameState {
      */
     protected void setBoardStateInCell(int posX, int posY, BoardState state) {
         gameBoard[posX][posY] = state;
-        remainingTurns--;
     }
 
     /**Traverses the game-board array and calculates scores for each player.
      *
      */
-    private void calculateScores() {
+    public void calculateScores() {
 
         playerAIScore=0;
         playerHUScore=0;
@@ -135,24 +143,23 @@ public class GameState {
         }
     }
 
-    /**Clones and returns a copy of current game-state.
-     *
-     * @return clonedGameState : GameState
-     */
-    public GameState getClonedGameState(){
-        try {
-            return (GameState) this.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            System.err.println("Exception in cloning GameState\n"+e.getMessage());
+    public GameState getClone() {
+        GameState clone = new GameState(row,col);
+        clone.playerHUScore=this.playerHUScore;
+        clone.playerAIScore=this.playerAIScore;
+        for(int i=0; i<row; i++){
+            for (int j =0; j<col;j++){
+                clone.gameBoard[i][j]=this.gameBoard[i][j];
+            }
         }
-        return null;
+        return clone;
     }
+
 
     @Override
     public String toString(){
         calculateScores();
-        return  printBoard()+"\n"+"Human score: "+playerHUScore+"\nAI score:"+playerAIScore+"\nMoves left < "+remainingTurns;
+        return  printBoard()+"\n"+"Human score: "+playerHUScore+"\nAI score:"+playerAIScore+"\nMoves left: "+getRemainingTurns();
     }
 
 }

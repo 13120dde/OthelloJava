@@ -1,5 +1,6 @@
 package othelloGame;
 
+import othelloGame.gameLogic.GameAI;
 import othelloGame.gameLogic.GameEngine;
 import othelloGame.gameLogic.GameState;
 
@@ -20,8 +21,8 @@ public class OthelloMain {
 
     private void initGame() {
         gameState = new GameState(4,4);
-        gameEngine = new GameEngine(gameState);
-        gameAI = new GameAI(gameEngine,gameState);
+        gameAI = new GameAI(gameState);
+        gameEngine = new GameEngine(gameState, gameAI);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 createAndShowUI();

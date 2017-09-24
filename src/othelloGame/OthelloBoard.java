@@ -142,7 +142,7 @@ public class OthelloBoard extends JPanel{
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    System.out.println("mouseOver: x:"+row+" y:"+col);
+                   // System.out.println("mouseOver: x:"+row+" y:"+col);
                             placements = controller.checkValidPlacement(row,col,gameBoard,player);
                             if(placements!=null){
                                 setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
