@@ -19,7 +19,7 @@ public class OthelloMain {
     }
 
     private void initGame() {
-        gameState = new GameState(8,8);
+        gameState = new GameState(4,4);
         gameAI = new GameAI(gameState);
         gameEngine = new GameEngine(gameState, gameAI);
         java.awt.EventQueue.invokeLater(new Runnable() {

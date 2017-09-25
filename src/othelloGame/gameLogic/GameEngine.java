@@ -165,7 +165,6 @@ public class GameEngine {
      * @param placements
      */
     public boolean placeMove(GameState gameBoard,GameState.BoardState state, Placements placements) {
-        System.err.println("##############In gameEngine.placeMove(...)######################");
 
         if((placements!=null)){
 
@@ -177,7 +176,6 @@ public class GameEngine {
 
                     //place player-marker at posXY
                     gameBoard.setBoardStateInCell(placements.posX,placements.posY, HU);
-                    System.err.println(state+" put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -187,7 +185,6 @@ public class GameEngine {
                         int y = placements.y.get(i);
 
                         gameBoard.setBoardStateInCell(x,y, HU);
-                        System.err.println(gameBoard.toString());
 
                         //recursion to handle chain-flipping
                         isRecursive=true;
@@ -202,7 +199,6 @@ public class GameEngine {
 
                     //place player-marker at posXY
                     gameBoard.setBoardStateInCell(placements.posX,placements.posY, AI);
-                    System.err.println(state+" put marker at row:"+placements.posX+" col:"+placements.posY);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
@@ -212,8 +208,6 @@ public class GameEngine {
                         int y = placements.y.get(i);
 
                         gameBoard.setBoardStateInCell(x,y, AI);
-                        System.err.println(gameBoard.toString());
-
 
                         //recursion to handle chain-flipping
                         isRecursive=true;
@@ -224,6 +218,11 @@ public class GameEngine {
 
             }
             isRecursive=false;
+
+            System.out.println("##############In gameEngine.placeMove(...)######################");
+            System.out.println(state+" put marker at row:"+placements.posX+" col:"+placements.posY);
+
+            System.out.println(gameBoard.toString());
 
             //Let the AI to build its tree breath first.
             ui.repaintCell();

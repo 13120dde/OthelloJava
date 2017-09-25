@@ -47,17 +47,17 @@ public class GameAI {
     }
 
     public void choseMove() {
-        System.err.println("########################### AI IS PICKING ##########################\n" +
+        System.out.println("########################### AI IS PICKING ##########################\n" +
                 "\n>>>>>>>>>>>>>Generating tree...");
         gameEngine.setTreeCreated(false);
 
-        GameNode state = new GameNode(gameState.getClone(), gameEngine);
+        GameNode state = new GameNode(gameEngine,gameState.getClone());
 
         long startTime = System.nanoTime();
         state = state.buildTree(state);
         long stopTime = System.nanoTime();
         gameEngine.setTreeCreated(true);
-        System.err.println("TREE CREATED\n" +
+        System.out.println("TREE CREATED\n" +
                 ">>>>>>>>>>>>>>>>Duration: "+(stopTime-startTime)/1000000+"ms");
 
         //Change gameEngines mode of placements to end turn after placing move after generating tree

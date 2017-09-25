@@ -11,85 +11,208 @@ import static othelloGame.gameLogic.GameState.BoardState.HU;
 
 public class GameNode {
 
-    private ArrayList<GameNode> children = new ArrayList<>();
+    private ArrayList<GameNode> children;
     private LinkedList<GameNode> childrenTemp = new LinkedList<>();
-    private GameNode parent=null;
-
-    private GameState clonedState;
-    private GameEngine gameEngine;
-    private ArrayList<GameEngine.Placements > actions = new ArrayList<>();
-    private boolean isLeaf = false;
-    private int utiliy = 0, posX, posY;
+    private GameNode parent;
+    private int utiliy, posX, posY;
     private int depth=0;
-    private GameState.BoardState fakePlayer=AI;
+    private GameState.BoardState fakePlayer;
+    private GameState state;
 
-    public GameNode(GameState gameState, GameEngine gameEngine){
+    private GameEngine gameEngine;
+    private ArrayList<GameEngine.Placements > actions;
+    private boolean isLeaf = false;
+
+    public GameNode(GameEngine gameEngine){
 
         this.gameEngine=gameEngine;
-        this.clonedState=gameState;
+    }
+
+    public GameNode(GameEngine gameEngine, GameState gameState){
+        this.state=gameState;
+        this.gameEngine=gameEngine;
+        parent = null;
+        children = new ArrayList<>();
+
+        utiliy = 0;
+        posY=-1;
+        posX=-1;
+        fakePlayer=AI;
+        state=gameState;
+        actions = new ArrayList<>();
     }
 
     public GameNode() {
+        parent = null;
+        children = new ArrayList<>();
+        childrenTemp = new LinkedList<>();
+        utiliy = 0;
+        posY=-1;
+        posX=-1;
+        fakePlayer=AI;
+        state=null;
+        actions = new ArrayList<>();
 
     }
 
-    public GameNode buildTree(GameNode currentRoot) {
+    public GameNode buildTree(GameNode node) {
 
-        GameState stateInDepth=currentRoot.clonedState.getClone();
-        System.out.println(">>>>>IN BUILDING TREE\nDepth:"+depth++);
-        System.out.println("Generating moves for: "+currentRoot.fakePlayer+"\nState of gameboard\n"+stateInDepth.toString());
+        depth++;
+        GameNode currentNode = node;
+        GameState stateInDepth= node.getState().getClone();
+        System.out.println(">>>>>IN BUILDING TREE\nDepth:"+node.getDepthOfNode());
+        System.out.println("Generating moves for: "+currentNode.getFakePlayer()+" - name: "+currentNode.getPosX()+" - "+currentNode.getPosY()+"\nState of gameboard\n"+stateInDepth.toString());
 
-        if(currentRoot.clonedState.getRemainingTurns()<=0){
-            currentRoot.isLeaf=true;
-            currentRoot.utiliy=calculateUtility(clonedState);
-            return this ;
+        //Terminal check.
+        if(currentNode.getState().getRemainingTurns()<=0){
+            currentNode.setLeaf(true);
+            currentNode.setUtiliy(calculateUtility(state));
+        }
+
+
+        if(depth>14){
+            return null;
         }
 
         //Check all possible moves - place them in actionsarray.
-        for(int i = 0; i<gameEngine.getRowSize(clonedState);i++){
-            for(int j=0; j<gameEngine.getColSize(clonedState);j++){
-                GameEngine.Placements action = gameEngine.checkValidPlacement(i,j,clonedState,currentRoot.fakePlayer);
+        for(int i = 0; i<gameEngine.getRowSize(state);i++){
+            for(int j=0; j<gameEngine.getColSize(state);j++){
+                GameEngine.Placements action = gameEngine.checkValidPlacement(i,j,currentNode.getState(),currentNode.getFakePlayer());
                 if(action!=null){
-                    currentRoot.actions.add(action);
+                    currentNode.setAction(action);
                 }
             }
         }
 
         //For each action in array, place a move, reclone gamestate and create a childnode with the state which has the
-        //appropiate gamestate
-        if(!currentRoot.actions.isEmpty()){
-            for(int i=0;i<currentRoot.actions.size();i++){
-                 GameEngine.Placements a = currentRoot.actions.get(i);
+        //appropiate gamestate after placing a move.
+        if(currentNode.getAction(0)!=null){
+            for(int i=0;i<currentNode.getAcionsSize();i++){
+                GameEngine.Placements a = currentNode.getAction(i);
 
-                gameEngine.placeMove(currentRoot.clonedState,currentRoot.fakePlayer,a);
-                addChild(currentRoot, a.posX,a.posY);
-                clonedState = stateInDepth.getClone();
+                gameEngine.placeMove(currentNode.getState(),currentNode.getFakePlayer(),a);
+                GameState childState = currentNode.getState().getClone();
+                GameNode child = new GameNode();
+                child.setState(childState);
+                child.setParent(currentNode);
+                child.setPosX(a.posX);
+                child.setPosY(a.posY);
+                child.setDepthOfNode(depth);
+                child.setFakePlayer(currentNode.getFakePlayer());
+                currentNode.setChild(child);
+                childrenTemp.addLast(child);
+
+                currentNode.setState(stateInDepth.getClone());
             }
         }
-        if(!childrenTemp.isEmpty()){
-            buildTree(childrenTemp.getFirst());
 
+        //ni viable moves to make, need to pass
+        if(!childrenTemp.isEmpty()){
+            buildTree(childrenTemp.removeFirst());
         }
+
+
         return this;
     }
 
-    private void addChild(GameNode currentRoot,int posX, int posY) {
-
-        GameNode child = new GameNode();
-
-        if(currentRoot.fakePlayer==AI){
-            child.fakePlayer=HU;
-        }else if (currentRoot.fakePlayer==HU){
-            child.fakePlayer=AI;
-        }
-
-        child.clonedState=currentRoot.clonedState.getClone();
-        child.posX=posX;
-        child.posY=posY;
-        child.parent=currentRoot;
-        currentRoot.children.add(child);
-        childrenTemp.push(child);
+    private int getDepthOfNode() {
+        return this.depth;
     }
+
+    private void setDepthOfNode(int depth) {
+        this.depth=depth;
+    }
+
+    public void setState(GameState childState) {
+        this.state=childState;
+    }
+    public GameState getState() {
+        return state;
+    }
+
+    private int getAcionsSize() {
+        return actions.size();
+    }
+
+    private GameEngine.Placements getAction(int i) {
+        GameEngine.Placements action = null;
+        try {
+            action = actions.get(i);
+        }catch (IndexOutOfBoundsException e){
+            return null;
+        }
+        return action;
+    }
+
+    private void setAction(GameEngine.Placements action) {
+        actions.add(action);
+    }
+
+    public void setChild(GameNode child) {
+        children.add(child);
+    }
+
+    public GameNode getParent() {
+        return parent;
+    }
+
+    public void setParent(GameNode parent) {
+        this.parent = parent;
+    }
+
+    public ArrayList<GameEngine.Placements> getActions() {
+        return actions;
+    }
+
+    public void setActions(ArrayList<GameEngine.Placements> actions) {
+        this.actions = actions;
+    }
+
+    public boolean isLeaf() {
+        return isLeaf;
+    }
+
+    public void setLeaf(boolean leaf) {
+        isLeaf = leaf;
+    }
+
+    public int getUtiliy() {
+        return utiliy;
+    }
+
+    public void setUtiliy(int utiliy) {
+        this.utiliy = utiliy;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public GameState.BoardState getFakePlayer() {
+        return fakePlayer;
+    }
+
+    public void setFakePlayer(GameState.BoardState fakePlayer) {
+        if(fakePlayer==AI){
+            this.fakePlayer = HU;
+        }else if(fakePlayer==HU){
+            this.fakePlayer=AI;
+        }
+    }
+
+
 
 
     private int calculateUtility(GameState clonedState) {
