@@ -1,6 +1,8 @@
 package othelloGame.gameLogic;
 
+import static othelloGame.gameLogic.GameState.BoardState.AI;
 import static othelloGame.gameLogic.GameState.BoardState.EM;
+import static othelloGame.gameLogic.GameState.BoardState.HU;
 
 /**Game state responsible for the game-board and it's state during a game.
  *
@@ -34,7 +36,7 @@ public class GameState {
             for(int col=0; col<gameBoard[row].length; col++){
 
                 if((row==(gameBoard.length/2)-1 && col==(gameBoard.length/2)-1)||(row==gameBoard.length/2 &&col==gameBoard.length/2)){
-                    gameBoard[row][col]=BoardState.AI;
+                    gameBoard[row][col]= AI;
                 }
 
                 else if((row==(gameBoard.length/2)-1 && col==gameBoard.length/2)||(row==gameBoard.length/2 &&col==(gameBoard.length/2)-1)){
@@ -46,6 +48,7 @@ public class GameState {
 
             }
         }
+
     }
     public int getRemainingTurns() {
        int remainingTurns=0;
@@ -133,7 +136,7 @@ public class GameState {
 
         for(int i=0; i<gameBoard.length;i++){
             for(int j = 0; j<gameBoard[0].length;j++){
-                if(gameBoard[i][j]==BoardState.AI){
+                if(gameBoard[i][j]== AI){
                     playerAIScore++;
                 }
                 if(gameBoard[i][j]==BoardState.HU){

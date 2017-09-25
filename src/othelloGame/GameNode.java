@@ -53,16 +53,24 @@ public class GameNode {
         state=null;
         actions = new ArrayList<>();
 
+
+    }
+
+    public static void main(String[] args) {
+        GameState state = new GameState(8,8);
+        GameEngine engine = new GameEngine();
+        GameNode node = new GameNode(engine,state);
+        node = node.buildTree(node);
     }
 
     public GameNode buildTree(GameNode node) {
 
-        depth++;
         GameNode currentNode = node;
         GameState stateInDepth= node.getState().getClone();
-        System.out.println(">>>>>IN BUILDING TREE\nDepth:"+node.getDepthOfNode());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>IN BUILDING TREE<<<<<<<<<<<<<<<<<<<<<<<<<<<\nDepth:"+node.getDepthOfNode());
         System.out.println("Generating moves for: "+currentNode.getFakePlayer()+" - name: "+currentNode.getPosX()+" - "+currentNode.getPosY()+"\nState of gameboard\n"+stateInDepth.toString());
 
+        depth=currentNode.getDepthOfNode();
         //Terminal check.
         if(currentNode.getState().getRemainingTurns()<=0){
             currentNode.setLeaf(true);
@@ -70,7 +78,7 @@ public class GameNode {
         }
 
 
-        if(depth>14){
+        if(currentNode.getDepthOfNode()>10){
             return null;
         }
 
@@ -87,6 +95,8 @@ public class GameNode {
         //For each action in array, place a move, reclone gamestate and create a childnode with the state which has the
         //appropiate gamestate after placing a move.
         if(currentNode.getAction(0)!=null){
+            depth++;
+
             for(int i=0;i<currentNode.getAcionsSize();i++){
                 GameEngine.Placements a = currentNode.getAction(i);
 
@@ -101,6 +111,7 @@ public class GameNode {
                 child.setFakePlayer(currentNode.getFakePlayer());
                 currentNode.setChild(child);
                 childrenTemp.addLast(child);
+
 
                 currentNode.setState(stateInDepth.getClone());
             }

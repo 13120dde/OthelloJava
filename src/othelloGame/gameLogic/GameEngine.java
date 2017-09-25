@@ -37,6 +37,8 @@ public class GameEngine {
         public int posX;
         public int posY;
 
+
+
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
@@ -70,6 +72,10 @@ public class GameEngine {
         gameBoard = gameState;
         this.ai=ai;
         ai.setController(this);
+
+    }
+
+    public GameEngine(){
 
     }
 
@@ -219,13 +225,15 @@ public class GameEngine {
             }
             isRecursive=false;
 
-            System.out.println("##############In gameEngine.placeMove(...)######################");
-            System.out.println(state+" put marker at row:"+placements.posX+" col:"+placements.posY);
+//            System.out.println("##############In gameEngine.placeMove(...)######################");
+  //          System.out.println(state+" put marker at row:"+placements.posX+" col:"+placements.posY);
 
-            System.out.println(gameBoard.toString());
+    //        System.out.println(gameBoard.toString());
 
             //Let the AI to build its tree breath first.
-            ui.repaintCell();
+            /*if(treeCreated){
+                ui.repaintCell();
+            }*/
 
             return true;
             //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.
