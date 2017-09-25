@@ -2,6 +2,7 @@ package othelloGame;
 
 import othelloGame.gameLogic.GameEngine;
 import othelloGame.gameLogic.GameState;
+import othelloGame.gameLogic.Placements;
 
 import javax.swing.*;
 import java.awt.*;
@@ -122,7 +123,7 @@ public class OthelloBoard extends JPanel{
 
             addMouseListener(new MouseListener() {
 
-                GameEngine.Placements placements;
+                Placements placements;
 
                 @Override
                 public void mouseClicked(MouseEvent e) {

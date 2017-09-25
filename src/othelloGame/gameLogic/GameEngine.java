@@ -3,7 +3,6 @@ package othelloGame.gameLogic;
 import othelloGame.GameAI;
 import othelloGame.OthelloBoard;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static othelloGame.gameLogic.GameState.BoardState.EM;
@@ -31,29 +30,7 @@ public class GameEngine {
      * Holds also the current position of marker to be placed.
      *
      */
-    public class Placements {
-        public ArrayList<Integer> x = new ArrayList<>();
-        public ArrayList<Integer> y = new ArrayList<>();
-        public int posX;
-        public int posY;
 
-
-
-        @Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder. append("currentPosition: posX:"+posX+" - posY:"+posY+"\n");
-            builder.append("list x:");
-            for (Integer x : x){
-                builder.append(x+",\t");
-            }
-            builder.append("\nlist y:");
-            for (Integer y: y) {
-                builder.append(y+",\t");
-            }
-            return builder.toString();
-        }
-    }
 
     //Game engine variables
     private OthelloBoard ui;
@@ -149,7 +126,7 @@ public class GameEngine {
 
     private boolean checkIfPlayerCanPlaceAMove(GameState gameBoard, GameState.BoardState playerInTurn){
         LinkedList<Placements> placements = new LinkedList();
-        Placements action = null;
+        Placements action = new Placements();
         for(int x =0; x<gameBoard.getBoardRowSize();x++){
             for(int y = 0; y<gameBoard.getBoardColSize();y++){
                 action = checkValidPlacement(x,y,gameBoard,playerInTurn);
@@ -175,20 +152,20 @@ public class GameEngine {
         if((placements!=null)){
 
 
-            int size = placements.x.size();
+            int size = placements.getSize();
             switch (state){
 
                 case HU:
 
                     //place player-marker at posXY
-                    gameBoard.setBoardStateInCell(placements.posX,placements.posY, HU);
+                    gameBoard.setBoardStateInCell(placements.getPosX(),placements.getPosY(), HU);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
 
                         //every turned marker needs in turn check if it turns other markers
-                        int x = placements.x.get(i);
-                        int y = placements.y.get(i);
+                        int x = placements.getFromListX(i);
+                        int y = placements.getFromListY(i);
 
                         gameBoard.setBoardStateInCell(x,y, HU);
 
@@ -204,14 +181,14 @@ public class GameEngine {
                 case AI:
 
                     //place player-marker at posXY
-                    gameBoard.setBoardStateInCell(placements.posX,placements.posY, AI);
+                    gameBoard.setBoardStateInCell(placements.getPosX(),placements.getPosY(), AI);
 
                     //turn all markers of opposing color
                     for ( int i =0; i<size; i++) {
 
                         //every turned marker needs in turn check if it turns other markers
-                        int x = placements.x.get(i);
-                        int y = placements.y.get(i);
+                        int x = placements.getFromListX(i);
+                        int y = placements.getFromListY(i);
 
                         gameBoard.setBoardStateInCell(x,y, AI);
 
@@ -264,8 +241,8 @@ public class GameEngine {
         }
 
         Placements possiblePlacements = new Placements();
-        possiblePlacements.posX=row;
-        possiblePlacements.posY=col;
+        possiblePlacements.setPosX(row);
+        possiblePlacements.setPosY(col);
 
         //Cell must be adjacent to opposing color
         for(int x = row-1; x<=row+1; x++){
@@ -273,8 +250,8 @@ public class GameEngine {
                 if(x>=0 && x<gameBoard.getBoardRowSize() && y>=0 && y<gameBoard.getBoardColSize()){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!= EM){
-                        possiblePlacements.x.add(x);
-                        possiblePlacements.y.add(y);
+                        possiblePlacements.addToListX(x);
+                        possiblePlacements.addToListY(y);
 
                     }
                 }
@@ -283,13 +260,13 @@ public class GameEngine {
 
     //    System.out.println(possiblePlacements.toString());
         //No adjacent opposing markers at pos row/col
-        if(possiblePlacements.x.isEmpty()){
+        if(possiblePlacements.isEmpty()){
             return null;
         }else{
             //second pass checks if there are end-markers of your color and returns positions of all markers that will
             //be flipped
             Placements markersToTurn  = checkIfTurnable(gameBoard,possiblePlacements, state);
-            if(markersToTurn.x.isEmpty()){
+            if(markersToTurn.getSize()<=0){
                 return null;
             }else{
                 return markersToTurn;
@@ -309,14 +286,16 @@ public class GameEngine {
                                         GameState.BoardState state) {
      //   System.out.println("#####################IN CHECK IF TURNABLE SECOND PASS####################\n");
 
-        int posX = possiblePlacements.posX;
-        int posY = possiblePlacements.posY;
-        int numberOfPossiblePlacements=possiblePlacements.x.size();
+        int posX = possiblePlacements.getPosX();
+        int posY = possiblePlacements.getPosY();
+
+        int numberOfPossiblePlacements=possiblePlacements.getSize();
 
         //Probably redundant now since this method doesn't return endmarkers anymore, still good to have to error check
         Placements posXYOfEndMarkers = new Placements();
-        posXYOfEndMarkers.posX=posX;
-        posXYOfEndMarkers.posY=posY;
+
+        posXYOfEndMarkers.setPosX(posX);
+        posXYOfEndMarkers.setPosY(posY);
 
         //Was too much hassle adding and removing in one single list, appends all result at the end
         Placements upLeft = new Placements();
@@ -332,8 +311,8 @@ public class GameEngine {
          * you meet a marker of your color along the trajectory put the in the collection
          */
         for(int i = 0; i<numberOfPossiblePlacements;i++){
-            int x = possiblePlacements.x.get(i);
-            int y = possiblePlacements.y.get(i);
+            int x = possiblePlacements.getFromListX(i);
+            int y = possiblePlacements.getFromListY(i);
 
             //Checking in all directions of posXY in one single large method, TODO split into seperate methods
 
@@ -345,8 +324,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        upLeft.x.add(x);
-                        upLeft.y.add(y);
+                        upLeft.addToListX(x);
+                        upLeft.addToListY(y);
                     }
                     x--;
                     y--;
@@ -356,8 +335,8 @@ public class GameEngine {
 
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
                         break;
                     }
@@ -374,8 +353,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        up.x.add(x);
-                        up.y.add(y);
+                        up.addToListX(x);
+                        up.addToListY(y);
                     }
                     x--;
                     if(x<0){
@@ -383,8 +362,8 @@ public class GameEngine {
                     }
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
 
                         break;
@@ -402,8 +381,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        upRight.x.add(x);
-                        upRight.y.add(y);
+                        upRight.addToListX(x);
+                        upRight.addToListY(y);
                     }
 
                     x--;
@@ -413,8 +392,8 @@ public class GameEngine {
                     }
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
 
                         break;
@@ -432,8 +411,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        left.x.add(x);
-                        left.y.add(y);
+                        left.addToListX(x);
+                        left.addToListY(y);
                     }
 
                     y--;
@@ -442,8 +421,8 @@ public class GameEngine {
                     }
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
 
                         break;
@@ -461,8 +440,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        right.x.add(x);
-                        right.y.add(y);
+                        right.addToListX(x);
+                        right.addToListY(y);
                     }
 
                     y++;
@@ -471,8 +450,8 @@ public class GameEngine {
                     }
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
 
                         break;
@@ -490,8 +469,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        downLeft.x.add(x);
-                        downLeft.y.add(y);
+                        downLeft.addToListX(x);
+                        downLeft.addToListY(y);
                     }
 
                     x++;
@@ -501,8 +480,8 @@ public class GameEngine {
                     }
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
 
                         break;
@@ -519,8 +498,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        down.x.add(x);
-                        down.y.add(y);
+                        down.addToListX(x);
+                        down.addToListY(y);
                     }
 
                     x++;
@@ -529,8 +508,8 @@ public class GameEngine {
                     }
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
 
                         break;
@@ -547,8 +526,8 @@ public class GameEngine {
                 while(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
 
                     if(gameBoard.getStateInCell(x,y)!=state && gameBoard.getStateInCell(x,y)!=EM){
-                        downRight.x.add(x);
-                        downRight.y.add(y);
+                        downRight.addToListX(x);
+                        downRight.addToListY(y);
                     }
 
                     x++;
@@ -558,8 +537,8 @@ public class GameEngine {
                     }
 
                     if(gameBoard.getStateInCell(x,y)==state){
-                        posXYOfEndMarkers.x.add(x);
-                        posXYOfEndMarkers.y.add(y);
+                        posXYOfEndMarkers.addToListX(x);
+                        posXYOfEndMarkers.addToListY(y);
                         foundEndMarker = true;
 
                         break;
@@ -597,47 +576,40 @@ public class GameEngine {
 
 
         Placements allMarkersToReturn = new Placements();
-        allMarkersToReturn.posX=posX;
-        allMarkersToReturn.posY=posY;
+        allMarkersToReturn.setPosY(posX);
+        allMarkersToReturn.setPosY(posY);
 
-        if(!upLeft.x.isEmpty()){
-            allMarkersToReturn.x.addAll(upLeft.x);
-            allMarkersToReturn.y.addAll(upLeft.y);
+        if(!upLeft.isEmpty()){
+            allMarkersToReturn.addAll(upLeft.getListX(), upLeft.getListY());
         }
 
-        if(!up.x.isEmpty()){
-            allMarkersToReturn.x.addAll(up.x);
-            allMarkersToReturn.y.addAll(up.y);
+        if(!up.isEmpty()){
+            allMarkersToReturn.addAll(up.getListX(), up.getListY());
         }
 
-        if(!upRight.x.isEmpty()){
-            allMarkersToReturn.x.addAll(upRight.x);
-            allMarkersToReturn.y.addAll(upRight.y);
+        if(!upRight.isEmpty()){
+            allMarkersToReturn.addAll(upRight.getListX(), upRight.getListY());
         }
 
-        if(!left.x.isEmpty()){
-            allMarkersToReturn.x.addAll(left.x);
-            allMarkersToReturn.y.addAll(left.y);
+        if(!left.isEmpty()){
+            allMarkersToReturn.addAll(left.getListX(), left.getListY());
         }
 
-        if(!right.x.isEmpty()){
-            allMarkersToReturn.x.addAll(right.x);
-            allMarkersToReturn.y.addAll(right.y);
+        if(!right.isEmpty()){
+            allMarkersToReturn.addAll(right.getListX(), right.getListY());
+
         }
 
-        if(!downLeft.x.isEmpty()){
-            allMarkersToReturn.x.addAll(downLeft.x);
-            allMarkersToReturn.y.addAll(downLeft.y);
+        if(!downLeft.isEmpty()){
+            allMarkersToReturn.addAll(downLeft.getListX(), downLeft.getListY());
         }
 
-        if(!down.x.isEmpty()){
-            allMarkersToReturn.y.addAll(down.y);
-            allMarkersToReturn.x.addAll(down.x);
+        if(!down.isEmpty()){
+            allMarkersToReturn.addAll(down.getListX(), down.getListY());
         }
 
-        if(!downRight.x.isEmpty()){
-            allMarkersToReturn.x.addAll(downRight.x);
-            allMarkersToReturn.y.addAll(downRight.y);
+        if(!downRight.isEmpty()){
+            allMarkersToReturn.addAll(downRight.getListX(), downRight.getListY());
         }
 
         return allMarkersToReturn;

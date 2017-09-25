@@ -2,6 +2,7 @@ package othelloGame;
 
 import othelloGame.gameLogic.GameEngine;
 import othelloGame.gameLogic.GameState;
+import othelloGame.gameLogic.Placements;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ public class GameNode {
     private GameState state;
 
     private GameEngine gameEngine;
-    private ArrayList<GameEngine.Placements > actions;
+    private ArrayList<Placements> actions;
     private boolean isLeaf = false;
 
     public GameNode(GameEngine gameEngine){
@@ -35,8 +36,8 @@ public class GameNode {
         children = new ArrayList<>();
 
         utiliy = 0;
-        posY=-1;
-        posX=-1;
+        posY=0;
+        posX=0;
         fakePlayer=AI;
         state=gameState;
         actions = new ArrayList<>();
@@ -47,8 +48,8 @@ public class GameNode {
         children = new ArrayList<>();
         childrenTemp = new LinkedList<>();
         utiliy = 0;
-        posY=-1;
-        posX=-1;
+        posY=0;
+        posX=0;
         fakePlayer=AI;
         state=null;
         actions = new ArrayList<>();
@@ -85,7 +86,7 @@ public class GameNode {
         //Check all possible moves - place them in actionsarray.
         for(int i = 0; i<gameEngine.getRowSize(state);i++){
             for(int j=0; j<gameEngine.getColSize(state);j++){
-                GameEngine.Placements action = gameEngine.checkValidPlacement(i,j,currentNode.getState(),currentNode.getFakePlayer());
+                Placements action = gameEngine.checkValidPlacement(i,j,currentNode.getState(),currentNode.getFakePlayer());
                 if(action!=null){
                     currentNode.setAction(action);
                 }
@@ -98,15 +99,15 @@ public class GameNode {
             depth++;
 
             for(int i=0;i<currentNode.getAcionsSize();i++){
-                GameEngine.Placements a = currentNode.getAction(i);
+                Placements a = currentNode.getAction(i);
 
                 gameEngine.placeMove(currentNode.getState(),currentNode.getFakePlayer(),a);
                 GameState childState = currentNode.getState().getClone();
                 GameNode child = new GameNode();
                 child.setState(childState);
                 child.setParent(currentNode);
-                child.setPosX(a.posX);
-                child.setPosY(a.posY);
+                child.setPosX(a.getPosX());
+                child.setPosY(a.getPosY());
                 child.setDepthOfNode(depth);
                 child.setFakePlayer(currentNode.getFakePlayer());
                 currentNode.setChild(child);
@@ -145,8 +146,8 @@ public class GameNode {
         return actions.size();
     }
 
-    private GameEngine.Placements getAction(int i) {
-        GameEngine.Placements action = null;
+    private Placements getAction(int i) {
+        Placements action = null;
         try {
             action = actions.get(i);
         }catch (IndexOutOfBoundsException e){
@@ -155,7 +156,7 @@ public class GameNode {
         return action;
     }
 
-    private void setAction(GameEngine.Placements action) {
+    private void setAction(Placements action) {
         actions.add(action);
     }
 
@@ -171,11 +172,11 @@ public class GameNode {
         this.parent = parent;
     }
 
-    public ArrayList<GameEngine.Placements> getActions() {
+    public ArrayList<Placements> getActions() {
         return actions;
     }
 
-    public void setActions(ArrayList<GameEngine.Placements> actions) {
+    public void setActions(ArrayList<Placements> actions) {
         this.actions = actions;
     }
 
