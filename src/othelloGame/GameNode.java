@@ -14,9 +14,9 @@ public class GameNode {
 
 
     private GameNode parent;
-    private int posX, posY;
     private GameState.Player fakePlayer;
     private GameState state;
+    private Actions action;
     private ArrayList<GameNode> children;
     private boolean isLeaf = false;
 
@@ -30,10 +30,9 @@ public class GameNode {
         this.state=gameState;
         this.gameEngine=gameEngine;
         parent = null;
+        action = new Actions();
         children = new ArrayList<>();
 
-        posY=0;
-        posX=0;
         fakePlayer=AI;
         state=gameState;
     }
@@ -42,10 +41,9 @@ public class GameNode {
         parent = null;
         children = new ArrayList<>();
         childrenTemp = new LinkedList<>();
-        posY=0;
-        posX=0;
         fakePlayer=AI;
         state=null;
+        action = null;
 
     }
 
@@ -66,7 +64,7 @@ public class GameNode {
       //  GameNode currentNode = node;
         GameState stateInDepth= currentNode.getState().getClone();
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>IN BUILDING TREE<<<<<<<<<<<<<<<<<<<<<<<<<<<\nDepth:"+currentNode.getDepthOfNode());
-        System.out.println("Generating moves for: "+currentNode.getFakePlayer()+" - name: "+currentNode.getPosX()+" - "+currentNode.getPosY()+"\nState of gameboard\n"+stateInDepth.toString());
+        System.out.println("Generating moves for: "+currentNode.getFakePlayer()+" - name: "+currentNode.getAction().getPosX()+" - "+currentNode.getAction().getPosY()+"\nState of gameboard\n"+stateInDepth.toString());
 
         depth=currentNode.getDepthOfNode();
         //Terminal check.
@@ -104,9 +102,8 @@ public class GameNode {
                 GameNode child = new GameNode();
                 child.setState(childState);
                 child.setParent(currentNode);
-                child.setPosX(a.getPosX());
-                child.setPosY(a.getPosY());
                 child.setDepthOfNode(depth);
+                child.setAction(a);
                 child.setFakePlayer(currentNode.getFakePlayer());
                 currentNode.setChild(child);
                 childrenTemp.addLast(child);
@@ -117,12 +114,20 @@ public class GameNode {
         return currentNode;
     }
 
+    private void setAction(Actions action) {
+        this.action=action;
+    }
+
     private int getDepthOfNode() {
         return this.depth;
     }
 
     private void setDepthOfNode(int depth) {
         this.depth=depth;
+    }
+
+    public Actions getAction(){
+        return action;
     }
 
     public void setState(GameState childState) {
@@ -150,22 +155,6 @@ public class GameNode {
 
     public void setLeaf(boolean leaf) {
         isLeaf = leaf;
-    }
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
     }
 
     public GameState.Player getFakePlayer() {
