@@ -1,17 +1,17 @@
 package othelloGame;
 
+import othelloGame.gameLogic.Actions;
 import othelloGame.gameLogic.GameEngine;
 import othelloGame.gameLogic.GameState;
-import othelloGame.gameLogic.Placements;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import static othelloGame.gameLogic.GameState.BoardState.EM;
-import static othelloGame.gameLogic.GameState.BoardState.HU;
-import static othelloGame.gameLogic.GameState.BoardState.AI;
+import static othelloGame.gameLogic.GameState.Player.EM;
+import static othelloGame.gameLogic.GameState.Player.HU;
+import static othelloGame.gameLogic.GameState.Player.AI;
 
 /**Simple yet functional game-board ui.
  * TODO add some ui elements ie scoreboard
@@ -20,7 +20,7 @@ import static othelloGame.gameLogic.GameState.BoardState.AI;
 public class OthelloBoard extends JPanel{
 
     private BoardCell[][] cells;
-    private GameState.BoardState player = HU;
+    private GameState.Player player = HU;
     private GameEngine controller;
     private GameState gameBoard;
 
@@ -87,7 +87,7 @@ public class OthelloBoard extends JPanel{
      *
      * @param player : Player
      */
-    public void switchToOtherPlayer(GameState.BoardState player) {
+    public void switchToOtherPlayer(GameState.Player player) {
         if(player==AI){
             this.player=HU;
         }
@@ -102,11 +102,11 @@ public class OthelloBoard extends JPanel{
      */
     private class BoardCell extends JPanel{
 
-        private GameState.BoardState playerInCell;
+        private GameState.Player playerInCell;
         private Color playerColor;
         private int row, col;
 
-        public BoardCell(GameState.BoardState player, int row, int col){
+        public BoardCell(GameState.Player player, int row, int col){
 
             this.playerInCell=player;
             this.row=row;
@@ -123,7 +123,7 @@ public class OthelloBoard extends JPanel{
 
             addMouseListener(new MouseListener() {
 
-                Placements placements;
+                Actions placements;
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -171,7 +171,7 @@ public class OthelloBoard extends JPanel{
             this.setOpaque(true);
         }
 
-        private void setPlayerColor(GameState.BoardState playerInCell) {
+        private void setPlayerColor(GameState.Player playerInCell) {
             switch (playerInCell){
                 case HU:
                     playerColor = Color.WHITE;

@@ -1,8 +1,7 @@
 package othelloGame.gameLogic;
 
-import static othelloGame.gameLogic.GameState.BoardState.AI;
-import static othelloGame.gameLogic.GameState.BoardState.EM;
-import static othelloGame.gameLogic.GameState.BoardState.HU;
+import static othelloGame.gameLogic.GameState.Player.AI;
+import static othelloGame.gameLogic.GameState.Player.EM;
 
 /**Game state responsible for the game-board and it's state during a game.
  *
@@ -10,11 +9,11 @@ import static othelloGame.gameLogic.GameState.BoardState.HU;
 public class GameState {
 
 
-    public enum BoardState{
+    public enum Player {
         AI, HU, EM;
     }
 
-    private BoardState[][] gameBoard ;
+    private Player[][] gameBoard ;
     public int playerHUScore, playerAIScore;
     private int row, col;
 
@@ -22,7 +21,7 @@ public class GameState {
     public GameState(int row, int col){
         this.row=row;
         this.col=col;
-        gameBoard = new BoardState[row][col];
+        gameBoard = new Player[row][col];
         stateZero();
 
     }
@@ -40,7 +39,7 @@ public class GameState {
                 }
 
                 else if((row==(gameBoard.length/2)-1 && col==gameBoard.length/2)||(row==gameBoard.length/2 &&col==(gameBoard.length/2)-1)){
-                    gameBoard[row][col]= BoardState.HU;
+                    gameBoard[row][col]= Player.HU;
 
                 }else{
                     gameBoard[row][col]= EM;
@@ -111,7 +110,7 @@ public class GameState {
      * @param col : int
      * @return BoarState : {HU, AI, EM} -Human, AI, Empty
      */
-    protected BoardState getStateInCell(int row, int col) {
+    protected Player getStateInCell(int row, int col) {
         return gameBoard[row][col];
     }
 
@@ -122,7 +121,7 @@ public class GameState {
      * @param posY : int
      * @param state : Boardstate {HU, AI} - !EM, cant remove player's markers.
      */
-    protected void setBoardStateInCell(int posX, int posY, BoardState state) {
+    protected void setBoardStateInCell(int posX, int posY, Player state) {
         gameBoard[posX][posY] = state;
     }
 
@@ -139,7 +138,7 @@ public class GameState {
                 if(gameBoard[i][j]== AI){
                     playerAIScore++;
                 }
-                if(gameBoard[i][j]==BoardState.HU){
+                if(gameBoard[i][j]== Player.HU){
                     playerHUScore++;
                 }
             }

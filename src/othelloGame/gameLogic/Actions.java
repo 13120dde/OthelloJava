@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by Patrik Lind on 2017-09-25.
  */
-public class Placements {
+public class Actions {
     private ArrayList<Integer> x;
     private ArrayList<Integer> y;
     private int posX;
@@ -29,7 +29,7 @@ public class Placements {
     }
 
 
-    public Placements() {
+    public Actions() {
         x = new ArrayList<>();
         y = new ArrayList<>();
         posX = -1;

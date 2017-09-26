@@ -3,11 +3,7 @@ package othelloGame;
 import othelloGame.gameLogic.GameEngine;
 import othelloGame.gameLogic.GameState;
 
-import java.util.ArrayList;
-
-import static othelloGame.gameLogic.GameState.BoardState.AI;
-import static othelloGame.gameLogic.GameState.BoardState.EM;
-import static othelloGame.gameLogic.GameState.BoardState.HU;
+import static othelloGame.gameLogic.GameState.Player.AI;
 
 public class GameAI {
 
@@ -33,8 +29,7 @@ public class GameAI {
 
     private GameEngine gameEngine;
     private GameState gameState;
-    private int depthOfTree = 0;
-    private GameState.BoardState aiPlayer;
+    private GameState.Player aiPlayer;
 
     public GameAI(GameState gameState) {
         this.gameState=gameState;
