@@ -112,14 +112,9 @@ public class GameEngine {
 
         }
 
-        //Check if next player in turn can place a move, otherwise switch back to last player
-        if(!checkIfPlayerCanPlaceAMove(gameBoard,state)){
-            switchPlayer(gameBoard,state);
-        }
-
         //Tree need to swithch amongs player in turn to be abel to build itself
         if(treeCreated && state==HU){
-            ai.choseMove();
+            ai.choseMove(gameBoard);
         }
 
     }
@@ -208,9 +203,9 @@ public class GameEngine {
     //        System.out.println(gameBoard.toString());
 
             //Let the AI to build its tree breath first.
-            /*if(treeCreated){
+            if(treeCreated){
                 ui.repaintCell();
-            }*/
+            }
 
             return true;
             //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.

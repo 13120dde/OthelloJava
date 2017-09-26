@@ -166,6 +166,16 @@ public class GameState {
         return clone;
     }
 
+    public int getPlayerHUScore(){
+        calculateScores();
+        return playerHUScore;
+    }
+
+    public int getPlayerAIScore(){
+        calculateScores();
+        return playerAIScore;
+    }
+
 
     @Override
     public String toString(){

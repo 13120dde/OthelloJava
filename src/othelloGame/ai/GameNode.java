@@ -43,7 +43,7 @@ class GameNode {
 
     /**Constructor for creating the tree, instantiates and builds the tree for a limited time. For a  8x8 gameboard it
      * can process all nodes down to depth 6 at 2000ms time-limit. Of course the depth is  also determined by the current
-     * state of the game.
+     * state of the game meaning that we can get to higher depth the longer the game proceeds.
      *
      * @param gameEngine : GameEngine
      * @param gameState : GameState
@@ -156,6 +156,10 @@ class GameNode {
                 currentNode.setState(stateInDepth.getClone());
             }
         }
+        //Current node cant place a move, change to leaf although the game has not ended and there are more moves to make
+        else{
+            currentNode.setLeaf(true);
+        }
 
         return currentNode;
     }
@@ -199,6 +203,14 @@ class GameNode {
         return state;
     }
 
+    protected GameNode getChild(int i){
+        return children.get(i);
+    }
+
+    protected int getChildrenSize(){
+        return children.size();
+    }
+
     protected GameNode getParent() {
         return parent;
     }
@@ -209,6 +221,14 @@ class GameNode {
 
     protected GameState.Player getFakePlayer() {
         return fakePlayer;
+    }
+
+    protected int getUtilityValue(){
+        return utilityValue;
+    }
+
+    protected void setUtilityValue(int utilityValue){
+        this.utilityValue=utilityValue;
     }
 
     /**Changes player to !player
@@ -228,7 +248,7 @@ class GameNode {
     public static void main(String[] args) {
         GameState state = new GameState(4,4);
         GameEngine engine = new GameEngine();
-        GameNode node = new GameNode(engine,state, 2000);
+        GameNode node = new GameNode(engine,state, 5000);
         System.out.println(node.toString());
 
     }

@@ -22,7 +22,7 @@ public class OthelloMain {
 
     private void initGame() {
         gameState = new GameState(8,8);
-        gameAI = new GameAI(gameState);
+        gameAI = new GameAI();
         gameEngine = new GameEngine(gameState, gameAI);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
