@@ -22,6 +22,11 @@ public class GameAI {
         this.gameEngine = gameEngine;
     }
 
+    /**Builds a game-tree and traverses the tree with min-max with alpha-beta pruning. Travarses the whole tree that is
+     * being built.
+     *
+     * @param gameState
+     */
     public void choseMove(GameState gameState) {
         gameEngine.setTreeCreated(false);
         GameNode state = new GameNode(gameEngine,gameState.getClone(),4600);
@@ -50,7 +55,7 @@ public class GameAI {
         }
 
         float end=System.currentTimeMillis()-startTime;
-        System.out.println("Minmax time: "+end);
+        System.out.println("Minmax time: "+end+"ms");
 
         return result;
     }
@@ -86,13 +91,14 @@ public class GameAI {
         return resultValue;
     }
 
+    /*Could probably add some more criteria here, such as checking number of markers at borders or checking how many
+    * markers the player will be able to turn on his next move after ai chooses a action*/
     private float utility(GameNode state) {
         int aiScore = state.getState().getPlayerAIScore();
         int humanScore = state.getState().getPlayerHUScore();
         return aiScore-humanScore;
     }
 
-    //probably should add some timingrestricions too well see.
     private boolean terminalTest(GameNode state) {
         return state.isLeaf();
     }

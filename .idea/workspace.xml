@@ -2,19 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2744c11-e520-4a6d-9282-2c69732ef58e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameState$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/othelloGame/GameNode.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloMain$1.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloMain.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloMain.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameAI.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameAI.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameNode.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameNode.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine$1.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameState.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameState.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" afterPath="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/ai/GameAI.java" afterPath="$PROJECT_DIR$/src/othelloGame/ai/GameAI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/ai/GameNode.java" afterPath="$PROJECT_DIR$/src/othelloGame/ai/GameNode.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java" afterPath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java" afterPath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -43,21 +41,36 @@
           <file leaf-file-name="GameAI.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="442">
-                  <caret line="32" column="22" lean-forward="true" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+                <state relative-caret-position="867">
+                  <caret line="57" column="50" lean-forward="false" selection-start-line="57" selection-start-column="50" selection-end-line="57" selection-end-column="50" />
                   <folding>
-                    <element signature="e#2878#2879#0" expanded="true" />
-                    <element signature="e#2915#2916#0" expanded="true" />
+                    <element signature="e#3207#3208#0" expanded="true" />
+                    <element signature="e#3244#3245#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="OthelloMain.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="GameNode.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameNode.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1135">
+                  <caret line="86" column="87" lean-forward="false" selection-start-line="86" selection-start-column="87" selection-end-line="86" selection-end-column="87" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#7090#7091#0" expanded="true" />
+                    <element signature="e#7128#7129#0" expanded="true" />
+                    <element signature="method#setFakePlayer#0;class#GameNode#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="OthelloMain.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloMain.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="306">
-                  <caret line="24" column="30" lean-forward="false" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+                <state relative-caret-position="289">
+                  <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
                   <folding />
                 </state>
               </provider>
@@ -73,14 +86,16 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GameEngine.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="GameEngine.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="421">
-                  <caret line="102" column="16" lean-forward="false" selection-start-line="102" selection-start-column="16" selection-end-line="102" selection-end-column="16" />
+                <state relative-caret-position="2057">
+                  <caret line="136" column="38" lean-forward="false" selection-start-line="136" selection-start-column="38" selection-end-line="136" selection-end-column="38" />
                   <folding>
                     <element signature="e#2204#2205#0" expanded="true" />
                     <element signature="e#2250#2251#0" expanded="true" />
+                    <element signature="e#3933#3934#0" expanded="true" />
+                    <element signature="e#3981#3982#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -105,11 +120,11 @@
           <file leaf-file-name="GameAI.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="272">
-                  <caret line="26" column="69" lean-forward="false" selection-start-line="26" selection-start-column="69" selection-end-line="26" selection-end-column="69" />
+                <state relative-caret-position="1435">
+                  <caret line="96" column="58" lean-forward="true" selection-start-line="96" selection-start-column="58" selection-end-line="96" selection-end-column="58" />
                   <folding>
-                    <element signature="e#2878#2879#0" expanded="true" />
-                    <element signature="e#2915#2916#0" expanded="true" />
+                    <element signature="e#3207#3208#0" expanded="true" />
+                    <element signature="e#3244#3245#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -150,11 +165,11 @@
         <option value="$PROJECT_DIR$/src/othelloGame/GameAI.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/Actions.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/GameNode.java" />
-        <option value="$PROJECT_DIR$/src/othelloGame/ai/GameNode.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java" />
-        <option value="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" />
-        <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/ai/GameAI.java" />
+        <option value="$PROJECT_DIR$/src/othelloGame/ai/GameNode.java" />
+        <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java" />
+        <option value="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" />
       </list>
     </option>
   </component>
@@ -875,8 +890,8 @@
         <state relative-caret-position="901">
           <caret line="55" column="8" lean-forward="false" selection-start-line="55" selection-start-column="8" selection-end-line="55" selection-end-column="8" />
           <folding>
-            <element signature="e#2878#2879#0" expanded="true" />
-            <element signature="e#2915#2916#0" expanded="true" />
+            <element signature="e#3207#3208#0" expanded="true" />
+            <element signature="e#3244#3245#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -887,14 +902,8 @@
           <caret line="88" column="67" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7009#7010#0" expanded="true" />
-            <element signature="e#7047#7048#0" expanded="true" />
-            <element signature="e#7085#7086#0" expanded="true" />
-            <element signature="e#7123#7124#0" expanded="true" />
-            <element signature="e#7374#7375#0" expanded="true" />
-            <element signature="e#7409#7410#0" expanded="true" />
-            <element signature="e#7464#7465#0" expanded="true" />
-            <element signature="e#7510#7511#0" expanded="true" />
+            <element signature="e#7090#7091#0" expanded="true" />
+            <element signature="e#7128#7129#0" expanded="true" />
             <element signature="method#setFakePlayer#0;class#GameNode#0" expanded="false" />
           </folding>
         </state>
@@ -921,8 +930,8 @@
         <state relative-caret-position="1683">
           <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
           <folding>
-            <element signature="e#2878#2879#0" expanded="true" />
-            <element signature="e#2915#2916#0" expanded="true" />
+            <element signature="e#3207#3208#0" expanded="true" />
+            <element signature="e#3244#3245#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -940,8 +949,8 @@
         <state relative-caret-position="1802">
           <caret line="106" column="59" lean-forward="false" selection-start-line="106" selection-start-column="59" selection-end-line="106" selection-end-column="59" />
           <folding>
-            <element signature="e#2878#2879#0" expanded="true" />
-            <element signature="e#2915#2916#0" expanded="true" />
+            <element signature="e#3207#3208#0" expanded="true" />
+            <element signature="e#3244#3245#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1108,25 +1117,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2992">
-          <caret line="210" column="31" lean-forward="false" selection-start-line="210" selection-start-column="31" selection-end-line="210" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7009#7010#0" expanded="true" />
-            <element signature="e#7047#7048#0" expanded="true" />
-            <element signature="e#7085#7086#0" expanded="true" />
-            <element signature="e#7123#7124#0" expanded="true" />
-            <element signature="e#7374#7375#0" expanded="true" />
-            <element signature="e#7409#7410#0" expanded="true" />
-            <element signature="e#7464#7465#0" expanded="true" />
-            <element signature="e#7510#7511#0" expanded="true" />
-            <element signature="method#setFakePlayer#0;class#GameNode#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1146">
@@ -1134,14 +1124,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="30" lean-forward="false" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1153,25 +1135,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java">
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="102" column="16" lean-forward="false" selection-start-line="102" selection-start-column="16" selection-end-line="102" selection-end-column="16" />
+        <state relative-caret-position="867">
+          <caret line="57" column="50" lean-forward="false" selection-start-line="57" selection-start-column="50" selection-end-line="57" selection-end-column="50" />
           <folding>
-            <element signature="e#2204#2205#0" expanded="true" />
-            <element signature="e#2250#2251#0" expanded="true" />
+            <element signature="e#3207#3208#0" expanded="true" />
+            <element signature="e#3244#3245#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="26" column="69" lean-forward="false" selection-start-line="26" selection-start-column="69" selection-end-line="26" selection-end-column="69" />
+        <state relative-caret-position="1135">
+          <caret line="86" column="87" lean-forward="false" selection-start-line="86" selection-start-column="87" selection-end-line="86" selection-end-column="87" />
           <folding>
-            <element signature="e#2878#2879#0" expanded="true" />
-            <element signature="e#2915#2916#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7090#7091#0" expanded="true" />
+            <element signature="e#7128#7129#0" expanded="true" />
+            <element signature="method#setFakePlayer#0;class#GameNode#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2057">
+          <caret line="136" column="38" lean-forward="false" selection-start-line="136" selection-start-column="38" selection-end-line="136" selection-end-column="38" />
+          <folding>
+            <element signature="e#2204#2205#0" expanded="true" />
+            <element signature="e#2250#2251#0" expanded="true" />
+            <element signature="e#3933#3934#0" expanded="true" />
+            <element signature="e#3981#3982#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>

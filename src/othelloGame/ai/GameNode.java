@@ -84,7 +84,7 @@ class GameNode {
             }
         }
 
-        System.out.println("Tree built in:" +(System.currentTimeMillis()-startTime));
+        System.out.println("Tree built in:" +(System.currentTimeMillis()-startTime)+"ms");
     }
 
     /**Constructor for child-nodes, should only be accessed by this class iteslf.

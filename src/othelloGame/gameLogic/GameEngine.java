@@ -103,20 +103,38 @@ public class GameEngine {
     public void switchPlayer(GameState gameBoard,GameState.Player state){
         System.out.print(playerInTurn+" ended his turn. ");
 
-        //Switch turn to other player
         if(state==AI){
-            playerInTurn = HU;
-        }else if(state==HU){
-            playerInTurn =AI;
-            System.out.println(playerInTurn+" begins his turn.");
+            if(checkIfPlayerCanPlaceAMove(gameBoard,HU)){
+                playerInTurn = HU;
+            }
+            else if(!checkIfPlayerCanPlaceAMove(gameBoard,HU) && !checkIfPlayerCanPlaceAMove(gameBoard,AI)){
+                gameOver();
+            }
+            else{
+                System.out.printf("Player Human pass - has no placeable actions");
+                ai.choseMove(gameBoard);
+            }
+        }else if(state==HU) {
+            if (checkIfPlayerCanPlaceAMove(gameBoard, AI)) {
+                playerInTurn = AI;
 
+            } else if (!checkIfPlayerCanPlaceAMove(gameBoard, HU) && !checkIfPlayerCanPlaceAMove(gameBoard, AI)) {
+                gameOver();
+            } else {
+                System.out.println("Player AI pass - has no placeable actions!");
+            }
         }
+        System.out.println(playerInTurn+" begins his turn.");
 
         //Tree need to swithch amongs player in turn to be abel to build itself
         if(treeCreated && state==HU){
             ai.choseMove(gameBoard);
         }
 
+    }
+
+    private void gameOver() {
+        System.out.println("GAME OVER!");
     }
 
     private boolean checkIfPlayerCanPlaceAMove(GameState gameBoard, GameState.Player playerInTurn){
