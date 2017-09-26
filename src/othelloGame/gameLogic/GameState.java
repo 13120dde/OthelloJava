@@ -3,10 +3,13 @@ package othelloGame.gameLogic;
 import static othelloGame.gameLogic.GameState.Player.AI;
 import static othelloGame.gameLogic.GameState.Player.EM;
 
-/**Game state responsible for the game-board and it's state during a game.
- *
+/**This class is responsible for the state of the game. It's a 2d array holding Player enumerations which can be:
+ * HU - human
+ * AI - Ai
+ * EM - Empty
  */
 public class GameState {
+
 
 
     public enum Player {
@@ -14,20 +17,20 @@ public class GameState {
     }
 
     private Player[][] gameBoard ;
-    public int playerHUScore, playerAIScore;
-    private int row, col;
+    private int playerHUScore, playerAIScore,row, col;
 
 
     public GameState(int row, int col){
         this.row=row;
         this.col=col;
+
         gameBoard = new Player[row][col];
         stateZero();
 
     }
 
-    /**Setups a new board.
-     *
+    /**Setups a new board by instantiating all the cells to empty, except for the for cells in the middle, which are
+     * occupied by 2 human and 2 ai markers.
      */
     private void stateZero() {
 
@@ -49,6 +52,7 @@ public class GameState {
         }
 
     }
+
     public int getRemainingTurns() {
        int remainingTurns=0;
        for(int i=0;i<gameBoard.length;i++){
@@ -115,15 +119,16 @@ public class GameState {
     }
 
 
-    /**Changest the state of a cell at given position.
+    /**Changest the player of a cell at given position.
      *
      * @param posX : int
      * @param posY : int
-     * @param state : Boardstate {HU, AI} - !EM, cant remove player's markers.
+     * @param player : Boardstate {HU, AI} - !EM, cant remove player's markers.
      */
-    protected void setBoardStateInCell(int posX, int posY, Player state) {
-        gameBoard[posX][posY] = state;
+    protected void setBoardStateInCell(int posX, int posY, Player player) {
+        gameBoard[posX][posY] = player;
     }
+
 
     /**Traverses the game-board array and calculates scores for each player.
      *
@@ -145,6 +150,10 @@ public class GameState {
         }
     }
 
+    /**Creates a new GameState object and copies all the values from current GameState object.
+     *
+     * @return clone : GameState
+     */
     public GameState getClone() {
         GameState clone = new GameState(row,col);
         clone.playerHUScore=this.playerHUScore;

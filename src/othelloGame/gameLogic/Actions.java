@@ -2,7 +2,9 @@ package othelloGame.gameLogic;
 
 import java.util.ArrayList;
 
-/**
+/**This class is responsible for holding the current XY position for a action, aswell as all the markers to be
+ * flipped by the action.
+ *
  * Created by Patrik Lind on 2017-09-25.
  */
 public class Actions {
@@ -48,21 +50,6 @@ public class Actions {
         return x.size();
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder. append("currentPosition: posX:"+posX+" - posY:"+posY+"\n");
-        builder.append("list x:");
-        for (Integer val : x){
-            builder.append(val+",\t");
-        }
-        builder.append("\nlist y:");
-        for (Integer val: y) {
-            builder.append(val+",\t");
-        }
-        return builder.toString();
-    }
-
     public int getFromListY(int i) {
         return y.get(i);
     }
@@ -87,5 +74,20 @@ public class Actions {
 
     public ArrayList<Integer> getListY() {
         return y;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder. append("currentPosition: posX:"+posX+" - posY:"+posY+"\n");
+        builder.append("list x:");
+        for (Integer val : x){
+            builder.append(val+",\t");
+        }
+        builder.append("\nlist y:");
+        for (Integer val: y) {
+            builder.append(val+",\t");
+        }
+        return builder.toString();
     }
 }

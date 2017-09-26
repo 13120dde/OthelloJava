@@ -1,6 +1,6 @@
 package othelloGame.gameLogic;
 
-import othelloGame.GameAI;
+import othelloGame.ai.GameAI;
 import othelloGame.OthelloBoard;
 
 import java.util.LinkedList;

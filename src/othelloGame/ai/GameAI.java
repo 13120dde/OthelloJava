@@ -1,4 +1,4 @@
-package othelloGame;
+package othelloGame.ai;
 
 import othelloGame.gameLogic.GameEngine;
 import othelloGame.gameLogic.GameState;
@@ -23,10 +23,6 @@ public class GameAI {
      * - Utility(s,p) - the final numeric value for a game that ends in a terminal state. Ratio of black markers vs White
      *
      */
-
-
-
-
     private GameEngine gameEngine;
     private GameState gameState;
     private GameState.Player aiPlayer;
@@ -42,18 +38,10 @@ public class GameAI {
     }
 
     public void choseMove() {
-        System.out.println("########################### AI IS PICKING ##########################\n" +
-                "\n>>>>>>>>>>>>>Generating tree...");
         gameEngine.setTreeCreated(false);
+        GameNode state = new GameNode(gameEngine,gameState.getClone(),2000);
 
-        GameNode state = new GameNode(gameEngine,gameState.getClone());
 
-        long startTime = System.nanoTime();
-        state = state.buildTree(state);
-        long stopTime = System.nanoTime();
-        gameEngine.setTreeCreated(true);
-        System.out.println("TREE CREATED\n" +
-                ">>>>>>>>>>>>>>>>Duration: "+(stopTime-startTime)/1000000+"ms");
 
         //Change gameEngines mode of placements to end turn after placing move after generating tree
         //Placement action =  alphaBetaSearch(state);

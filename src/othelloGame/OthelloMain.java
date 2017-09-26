@@ -1,12 +1,14 @@
 package othelloGame;
 
+import othelloGame.ai.GameAI;
 import othelloGame.gameLogic.GameEngine;
 import othelloGame.gameLogic.GameState;
 
 import javax.swing.*;
 
-/**
+/**Driver of the program, instantiates all neccessary components and runs the application.
  *
+ * Created by: Patrik Lind, 13120dde@gmail.com
  */
 public class OthelloMain {
 
