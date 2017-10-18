@@ -27,12 +27,16 @@ class GameNode {
     private GameState.Player fakePlayer;
     //The state of the game-board
     private GameState state;
+    //Heuristic vals
+
+    private int nbrOfActions=0,childrenSize=0 , amntMarkersFlipped=0, ifLast=0, amntMFlippedOpponent=0, depth;
+
     //Action for the specific Node holding a specific state
     private Actions action;
     private ArrayList<GameNode> children;
     private int depthOfNode =0;
-    private int utilityValue=0;
-    private boolean isLeaf = false;
+    private float utility =Float.MIN_VALUE;
+    private boolean isLeaf = true;
 
 
     /*>>>>>>>Variables for tree building<<<<<<<<<*/
@@ -62,30 +66,35 @@ class GameNode {
 
         GameNode node = null;
 
-        //Build the tree for limited time. stop execution after 2seconds and setup the leaves
+        //Build the tree for limited time.
         long startTime=System.currentTimeMillis();
         long elapsedTime = 0;
 
 
         while(!childrenTemp.isEmpty()){
-            node = childrenTemp.removeFirst();
             elapsedTime = System.currentTimeMillis()-startTime;
-            if(elapsedTime >=timeLimit){
-                /*Need to get the grandparent for the current node to set all it's children to leaves. After all we cant
-                be sure if the current node's siblings are all processed.
-                 */
-                node = node.getParent().getParent();
-                for(int i =0; i<node.children.size();i++){
-                    node.children.get(i).setLeaf(true);
-                }
-
-            }else{
-                buildTree(node);
+            if(elapsedTime>=timeLimit){
+                break;
             }
+            node = childrenTemp.removeFirst();
+            buildTree(node);
+
         }
 
         System.out.println("Tree built in:" +(System.currentTimeMillis()-startTime)+"ms");
     }
+
+    public GameNode(GameEngine gameEngine, GameState gameState, GameState.Player player, GameNode parent){
+        this.state=gameState;
+        this.gameEngine=gameEngine;
+        this.parent = parent;
+        children = new ArrayList<>();
+        action = new Actions();
+        fakePlayer=player;
+        buildTree(this);
+
+    }
+
 
     /**Constructor for child-nodes, should only be accessed by this class iteslf.
      *
@@ -110,17 +119,8 @@ class GameNode {
         ArrayList<Actions> actions = new ArrayList<>();
         GameState stateInDepth= currentNode.getState().getClone();
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>IN BUILDING TREE<<<<<<<<<<<<<<<<<<<<<<<<<<<\nDepth:"
-                +currentNode.getDepthOfNode());
-        System.out.println("Generating moves for: "+currentNode.getFakePlayer()+" - name: "
-                +currentNode.getAction().getPosX()+" - "+currentNode.getAction().getPosY()+"\nState of gameboard\n"+stateInDepth.toString());
 
         depthOfNode =currentNode.getDepthOfNode();
-
-        //Terminal check.
-        if(currentNode.getState().getRemainingTurns()<=0 ){
-            currentNode.setLeaf(true);
-        }
 
         /*TODO: inefficient to check naively, should probably refactor to a outward search in the gameboard[][]*/
         //Check all possible moves - place them in actionsarray.
@@ -139,7 +139,7 @@ class GameNode {
         //appropiate gamestate after placing a move.
         if(!actions.isEmpty()){
             depthOfNode++;
-
+            currentNode.setLeaf(false);
             for(int i=0;i<actions.size();i++){
                 Actions a = actions.get(i);
 
@@ -194,16 +194,38 @@ class GameNode {
         isLeaf = leaf;
     }
 
+    /**Changes player to !player
+     *
+     * @param fakePlayer : Player
+     */
+    private void setFakePlayer(GameState.Player fakePlayer) {
+        if(fakePlayer==AI){
+            this.fakePlayer = HU;
+        }else if(fakePlayer==HU){
+            this.fakePlayer=AI;
+        }
+    }
+
     protected Actions getAction(){
 
         return action;
     }
 
+    protected float getUtility() {
+        return utility;
+    }
+
+    protected void setUtility(float utility) {
+        this.utility = utility;
+    }
+
+
+
     protected GameState getState() {
         return state;
     }
 
-    protected GameNode getChild(int i){
+    protected GameNode getChild(int i) {
         return children.get(i);
     }
 
@@ -223,34 +245,10 @@ class GameNode {
         return fakePlayer;
     }
 
-    protected int getUtilityValue(){
-        return utilityValue;
-    }
 
-    protected void setUtilityValue(int utilityValue){
-        this.utilityValue=utilityValue;
-    }
 
-    /**Changes player to !player
-     *
-     * @param fakePlayer : Player
-     */
-    private void setFakePlayer(GameState.Player fakePlayer) {
-        if(fakePlayer==AI){
-            this.fakePlayer = HU;
-        }else if(fakePlayer==HU){
-            this.fakePlayer=AI;
-        }
-    }
-
-    /**Just for testing
-     */
-    public static void main(String[] args) {
-        GameState state = new GameState(4,4);
-        GameEngine engine = new GameEngine();
-        GameNode node = new GameNode(engine,state, 5000);
-        System.out.println(node.toString());
-
+    protected int getDepth() {
+        return depthOfNode;
     }
 
 }

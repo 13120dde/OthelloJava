@@ -96,7 +96,7 @@ public class GameState {
      *
      * @return rows : int
      */
-    protected int getBoardRowSize(){
+    public int getBoardRowSize(){
         return gameBoard.length;
     }
 
@@ -104,7 +104,7 @@ public class GameState {
      *
      * @return cols: int
      */
-    protected int getBoardColSize(){
+    public int getBoardColSize(){
         return gameBoard[0].length;
     }
 
@@ -114,7 +114,7 @@ public class GameState {
      * @param col : int
      * @return BoarState : {HU, AI, EM} -Human, AI, Empty
      */
-    protected Player getStateInCell(int row, int col) {
+    public Player getStateInCell(int row, int col) {
         return gameBoard[row][col];
     }
 

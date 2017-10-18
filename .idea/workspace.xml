@@ -2,17 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2744c11-e520-4a6d-9282-2c69732ef58e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloMain$1.class" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/othelloGame/ai/Test.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$1.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell$1.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard$BoardCell.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloBoard.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloMain.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/OthelloMain.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameAI.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameAI.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameNode.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/ai/GameNode.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine$1.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameEngine.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameState.class" afterPath="$PROJECT_DIR$/out/production/Othello/othelloGame/gameLogic/GameState.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" afterPath="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" afterPath="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/ai/GameAI.java" afterPath="$PROJECT_DIR$/src/othelloGame/ai/GameAI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/ai/GameNode.java" afterPath="$PROJECT_DIR$/src/othelloGame/ai/GameNode.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java" afterPath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java" afterPath="$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -27,6 +34,7 @@
     <SUITE FILE_PATH="coverage/OthelloJava$GameNode.coverage" NAME="GameNode Coverage Results" MODIFIED="1506343153375" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>othelloGame.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/Othello$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1506457212167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -35,17 +43,18 @@
     <favorites_list name="OthelloJava" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.49933302">
+    <splitter split-orientation="horizontal" split-proportion="0.49169436">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="GameAI.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
+          <file leaf-file-name="GameEngine.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="867">
-                  <caret line="57" column="50" lean-forward="false" selection-start-line="57" selection-start-column="50" selection-end-line="57" selection-end-column="50" />
+                <state relative-caret-position="-1282">
+                  <caret line="139" column="37" lean-forward="false" selection-start-line="139" selection-start-column="37" selection-end-line="139" selection-end-column="37" />
                   <folding>
-                    <element signature="e#3207#3208#0" expanded="true" />
-                    <element signature="e#3244#3245#0" expanded="true" />
+                    <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+                    <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+                    <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -54,14 +63,58 @@
           <file leaf-file-name="GameNode.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameNode.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1135">
-                  <caret line="86" column="87" lean-forward="false" selection-start-line="86" selection-start-column="87" selection-end-line="86" selection-end-column="87" />
+                <state relative-caret-position="829">
+                  <caret line="76" column="22" lean-forward="false" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#7090#7091#0" expanded="true" />
-                    <element signature="e#7128#7129#0" expanded="true" />
-                    <element signature="method#setFakePlayer#0;class#GameNode#0" expanded="false" />
+                    <element signature="e#6770#6771#0" expanded="true" />
+                    <element signature="e#6800#6801#0" expanded="true" />
+                    <element signature="e#6848#6849#0" expanded="true" />
+                    <element signature="e#6886#6887#0" expanded="true" />
+                    <element signature="e#6996#6997#0" expanded="true" />
+                    <element signature="e#7034#7035#0" expanded="true" />
+                    <element signature="e#7072#7073#0" expanded="true" />
+                    <element signature="e#7110#7111#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="GameAI.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="534">
+                  <caret line="52" column="73" lean-forward="false" selection-start-line="52" selection-start-column="73" selection-end-line="52" selection-end-column="73" />
+                  <folding>
+                    <element signature="e#3810#3811#0" expanded="true" />
+                    <element signature="e#3847#3848#0" expanded="true" />
+                    <element signature="method#AlphaBetaSearchWOTree#0;class#GameAI#0" expanded="false" />
+                    <element signature="method#maxV#0;class#GameAI#0" expanded="false" />
+                    <element signature="method#minV#0;class#GameAI#0" expanded="false" />
+                    <element signature="method#result#0;class#GameAI#0" expanded="false" />
+                    <element signature="method#terminalTestWOTree#0;class#GameAI#0" expanded="false" />
+                    <element signature="method#utilityWOTree#0;class#GameAI#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Test.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/Test.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="85">
+                  <caret line="5" column="34" lean-forward="false" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Thread.java" pinned="false" current-in-tab="false">
+            <entry file="jar://G:/Program files/Java/jdk1.8.0_144/src.zip!/java/lang/Thread.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="429">
+                  <caret line="747" column="0" lean-forward="false" selection-start-line="747" selection-start-column="0" selection-end-line="747" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -69,46 +122,9 @@
           <file leaf-file-name="OthelloMain.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloMain.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="289">
-                  <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
+                <state relative-caret-position="306">
+                  <caret line="24" column="37" lean-forward="false" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="37" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="OthelloBoard.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloBoard.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2125">
-                  <caret line="136" column="25" lean-forward="false" selection-start-line="136" selection-start-column="25" selection-end-line="136" selection-end-column="25" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GameEngine.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2057">
-                  <caret line="136" column="38" lean-forward="false" selection-start-line="136" selection-start-column="38" selection-end-line="136" selection-end-column="38" />
-                  <folding>
-                    <element signature="e#2204#2205#0" expanded="true" />
-                    <element signature="e#2250#2251#0" expanded="true" />
-                    <element signature="e#3933#3934#0" expanded="true" />
-                    <element signature="e#3981#3982#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GameState.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1146">
-                  <caret line="175" column="28" lean-forward="false" selection-start-line="175" selection-start-column="28" selection-end-line="175" selection-end-column="28" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -116,15 +132,19 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="GameAI.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
+        <leaf>
+          <file leaf-file-name="GameNode.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameNode.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1435">
-                  <caret line="96" column="58" lean-forward="true" selection-start-line="96" selection-start-column="58" selection-end-line="96" selection-end-column="58" />
+                <state relative-caret-position="2992">
+                  <caret line="206" column="5" lean-forward="false" selection-start-line="206" selection-start-column="5" selection-end-line="206" selection-end-column="5" />
                   <folding>
-                    <element signature="e#3207#3208#0" expanded="true" />
-                    <element signature="e#3244#3245#0" expanded="true" />
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#6770#6771#0" expanded="true" />
+                    <element signature="e#6800#6801#0" expanded="true" />
+                    <element signature="e#6848#6849#0" expanded="true" />
+                    <element signature="e#6886#6887#0" expanded="true" />
+                    <element signature="e#6996#6997#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -160,14 +180,15 @@
         <option value="$PROJECT_DIR$/src/othelloGame/GameState.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/GameEngine.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/GameAI.java" />
-        <option value="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/Placements.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/GameAI.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/Actions.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/GameNode.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java" />
-        <option value="$PROJECT_DIR$/src/othelloGame/ai/GameAI.java" />
+        <option value="$PROJECT_DIR$/src/othelloGame/OthelloBoard.java" />
+        <option value="$PROJECT_DIR$/src/othelloGame/ai/Test.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/ai/GameNode.java" />
+        <option value="$PROJECT_DIR$/src/othelloGame/ai/GameAI.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java" />
         <option value="$PROJECT_DIR$/src/othelloGame/OthelloMain.java" />
       </list>
@@ -180,13 +201,16 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-598" />
-    <option name="y" value="42" />
-    <option name="width" value="2762" />
-    <option name="height" value="1770" />
+    <option name="x" value="34" />
+    <option name="y" value="260" />
+    <option name="width" value="2576" />
+    <option name="height" value="1426" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="PackagesPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -200,10 +224,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -240,6 +260,37 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Othello" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Othello" type="616d4139:PackageViewModuleNode" />
+            </path>
+            <path>
+              <item name="Othello" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Othello" type="616d4139:PackageViewModuleNode" />
+              <item name="othelloGame" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="Othello" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Othello" type="616d4139:PackageViewModuleNode" />
+              <item name="othelloGame" type="1f31426a:PackageElementNode" />
+              <item name="ai" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="Othello" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Othello" type="616d4139:PackageViewModuleNode" />
+              <item name="othelloGame" type="1f31426a:PackageElementNode" />
+              <item name="gameLogic" type="1f31426a:PackageElementNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -277,6 +328,25 @@
         </pattern>
       </extension>
       <option name="MAIN_CLASS_NAME" value="othelloGame.ai.GameNode" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="Othello" />
+      <envs />
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="othelloGame.ai.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="othelloGame.ai.Test" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -704,13 +774,15 @@
     <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.Unnamed" />
       <item index="1" class="java.lang.String" itemvalue="Application.GameNode" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Test" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Application.GameNode" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Application.Test" />
+        <item index="1" class="java.lang.String" itemvalue="Application.GameNode" />
       </list>
     </recent_temporary>
   </component>
@@ -746,18 +818,18 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="0.26215807" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="-1080" y="23" width="1080" height="1836" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.26215807" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="-1080" y="23" width="1080" height="1867" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980832" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12148438" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17695312" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="0.67629176" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="-1079" y="31" width="1076" height="1825" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.67629176" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="-1079" y="31" width="1076" height="1825" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -817,15 +889,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/othelloGame/ai/GameNode.java</url>
-          <line>251</line>
-          <properties />
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="16" />
+      <option name="time" value="35" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -838,16 +902,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/Player.java" />
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="62" column="40" lean-forward="false" selection-start-line="62" selection-start-column="40" selection-end-line="62" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://G:/Program files/Java/jdk1.8.0_144/src.zip!/java/awt/Component.java" />
     <entry file="jar://G:/Program files/Java/jdk1.8.0_144/src.zip!/java/awt/Container.java" />
     <entry file="file://$PROJECT_DIR$/src/othelloGame/Player.java" />
     <entry file="file://$PROJECT_DIR$/src/othelloGame/HasPossibleMoves.java" />
@@ -871,7 +925,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3978">
           <caret line="256" column="0" lean-forward="false" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -880,7 +938,9 @@
         <state relative-caret-position="2414">
           <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2882#2883#0" expanded="false" />
+            <element signature="e#2924#2925#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -890,8 +950,14 @@
         <state relative-caret-position="901">
           <caret line="55" column="8" lean-forward="false" selection-start-line="55" selection-start-column="8" selection-end-line="55" selection-end-column="8" />
           <folding>
-            <element signature="e#3207#3208#0" expanded="true" />
-            <element signature="e#3244#3245#0" expanded="true" />
+            <element signature="e#3810#3811#0" expanded="true" />
+            <element signature="e#3847#3848#0" expanded="true" />
+            <element signature="method#AlphaBetaSearchWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#maxV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#minV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#result#0;class#GameAI#0" expanded="false" />
+            <element signature="method#terminalTestWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#utilityWOTree#0;class#GameAI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -902,9 +968,14 @@
           <caret line="88" column="67" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7090#7091#0" expanded="true" />
-            <element signature="e#7128#7129#0" expanded="true" />
-            <element signature="method#setFakePlayer#0;class#GameNode#0" expanded="false" />
+            <element signature="e#6770#6771#0" expanded="true" />
+            <element signature="e#6800#6801#0" expanded="true" />
+            <element signature="e#6848#6849#0" expanded="true" />
+            <element signature="e#6886#6887#0" expanded="true" />
+            <element signature="e#6996#6997#0" expanded="true" />
+            <element signature="e#7034#7035#0" expanded="true" />
+            <element signature="e#7072#7073#0" expanded="true" />
+            <element signature="e#7110#7111#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -921,7 +992,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
           <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -930,8 +1005,14 @@
         <state relative-caret-position="1683">
           <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
           <folding>
-            <element signature="e#3207#3208#0" expanded="true" />
-            <element signature="e#3244#3245#0" expanded="true" />
+            <element signature="e#3810#3811#0" expanded="true" />
+            <element signature="e#3847#3848#0" expanded="true" />
+            <element signature="method#AlphaBetaSearchWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#maxV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#minV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#result#0;class#GameAI#0" expanded="false" />
+            <element signature="method#terminalTestWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#utilityWOTree#0;class#GameAI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -949,8 +1030,14 @@
         <state relative-caret-position="1802">
           <caret line="106" column="59" lean-forward="false" selection-start-line="106" selection-start-column="59" selection-end-line="106" selection-end-column="59" />
           <folding>
-            <element signature="e#3207#3208#0" expanded="true" />
-            <element signature="e#3244#3245#0" expanded="true" />
+            <element signature="e#3810#3811#0" expanded="true" />
+            <element signature="e#3847#3848#0" expanded="true" />
+            <element signature="method#AlphaBetaSearchWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#maxV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#minV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#result#0;class#GameAI#0" expanded="false" />
+            <element signature="method#terminalTestWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#utilityWOTree#0;class#GameAI#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -959,7 +1046,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1105">
           <caret line="65" column="26" lean-forward="false" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -975,7 +1066,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1105">
           <caret line="65" column="26" lean-forward="false" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1000,7 +1095,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1190">
           <caret line="70" column="22" lean-forward="false" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1025,7 +1124,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="25" lean-forward="false" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1058,7 +1161,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="21" column="21" lean-forward="false" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1084,7 +1191,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="952">
           <caret line="62" column="40" lean-forward="false" selection-start-line="62" selection-start-column="40" selection-end-line="62" selection-end-column="40" />
-          <folding />
+          <folding>
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1099,83 +1210,102 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/GameNode.java" />
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/Heuristic.java" />
     <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/Actions.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding>
-            <element signature="method#addAll#0;class#Actions#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="884">
+          <caret line="79" column="28" lean-forward="false" selection-start-line="79" selection-start-column="3" selection-end-line="79" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/GameNode.java">
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloBoard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2431">
-          <caret line="175" column="0" lean-forward="false" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+        <state relative-caret-position="344">
+          <caret line="95" column="8" lean-forward="true" selection-start-line="95" selection-start-column="8" selection-end-line="98" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1146">
-          <caret line="175" column="28" lean-forward="false" selection-start-line="175" selection-start-column="28" selection-end-line="175" selection-end-column="28" />
+        <state relative-caret-position="17">
+          <caret line="116" column="3" lean-forward="false" selection-start-line="116" selection-start-column="3" selection-end-line="116" selection-end-column="50" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2882#2883#0" expanded="false" />
+            <element signature="e#2924#2925#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloBoard.java">
+    <entry file="jar://G:/Program files/Java/jdk1.8.0_144/src.zip!/java/lang/Thread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2125">
-          <caret line="136" column="25" lean-forward="false" selection-start-line="136" selection-start-column="25" selection-end-line="136" selection-end-column="25" />
+        <state relative-caret-position="429">
+          <caret line="747" column="0" lean-forward="false" selection-start-line="747" selection-start-column="0" selection-end-line="747" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="57" column="50" lean-forward="false" selection-start-line="57" selection-start-column="50" selection-end-line="57" selection-end-column="50" />
-          <folding>
-            <element signature="e#3207#3208#0" expanded="true" />
-            <element signature="e#3244#3245#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="5" column="34" lean-forward="false" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1135">
-          <caret line="86" column="87" lean-forward="false" selection-start-line="86" selection-start-column="87" selection-end-line="86" selection-end-column="87" />
+        <state relative-caret-position="829">
+          <caret line="76" column="22" lean-forward="false" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7090#7091#0" expanded="true" />
-            <element signature="e#7128#7129#0" expanded="true" />
-            <element signature="method#setFakePlayer#0;class#GameNode#0" expanded="false" />
+            <element signature="e#6770#6771#0" expanded="true" />
+            <element signature="e#6800#6801#0" expanded="true" />
+            <element signature="e#6848#6849#0" expanded="true" />
+            <element signature="e#6886#6887#0" expanded="true" />
+            <element signature="e#6996#6997#0" expanded="true" />
+            <element signature="e#7034#7035#0" expanded="true" />
+            <element signature="e#7072#7073#0" expanded="true" />
+            <element signature="e#7110#7111#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/othelloGame/ai/GameAI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="534">
+          <caret line="52" column="73" lean-forward="false" selection-start-line="52" selection-start-column="73" selection-end-line="52" selection-end-column="73" />
+          <folding>
+            <element signature="e#3810#3811#0" expanded="true" />
+            <element signature="e#3847#3848#0" expanded="true" />
+            <element signature="method#AlphaBetaSearchWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#maxV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#minV#0;class#GameAI#0" expanded="false" />
+            <element signature="method#result#0;class#GameAI#0" expanded="false" />
+            <element signature="method#terminalTestWOTree#0;class#GameAI#0" expanded="false" />
+            <element signature="method#utilityWOTree#0;class#GameAI#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/othelloGame/gameLogic/GameEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2057">
-          <caret line="136" column="38" lean-forward="false" selection-start-line="136" selection-start-column="38" selection-end-line="136" selection-end-column="38" />
+        <state relative-caret-position="-1282">
+          <caret line="139" column="37" lean-forward="false" selection-start-line="139" selection-start-column="37" selection-end-line="139" selection-end-column="37" />
           <folding>
-            <element signature="e#2204#2205#0" expanded="true" />
-            <element signature="e#2250#2251#0" expanded="true" />
-            <element signature="e#3933#3934#0" expanded="true" />
-            <element signature="e#3981#3982#0" expanded="true" />
+            <element signature="method#checkIfPlayerCanPlaceAMove#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#checkIfTurnable#0;class#GameEngine#0" expanded="false" />
+            <element signature="method#appendPlacements#0;class#GameEngine#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/othelloGame/OthelloMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
+        <state relative-caret-position="306">
+          <caret line="24" column="37" lean-forward="false" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="37" />
           <folding />
         </state>
       </provider>

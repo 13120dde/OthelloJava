@@ -15,6 +15,7 @@ public class OthelloMain {
     private GameEngine gameEngine;
     private GameState gameState;
     private GameAI gameAI;
+    private OthelloBoard gameUI;
 
     public static void main(String[] args) {
         new OthelloMain().initGame();
@@ -23,19 +24,20 @@ public class OthelloMain {
     private void initGame() {
         gameState = new GameState(8,8);
         gameAI = new GameAI();
-        gameEngine = new GameEngine(gameState, gameAI);
-        createAndShowUI();
+        gameUI = new OthelloBoard(gameState);
+        gameEngine = new GameEngine(gameState, gameAI, gameUI);
+        createAndShowUI(gameUI);
 
     }
 
-    private void createAndShowUI() {
+    private void createAndShowUI(OthelloBoard ui) {
         JFrame frame = new JFrame("Othello - by Patrik Lind");
-        frame.add(new OthelloBoard(gameEngine,gameState));
+        frame.add(ui);
         frame.setVisible(true);
 
-        //TODO change starting location
-        frame.setLocation(2600,100);
-        //frame.setResizable(false);
+
+       // frame.setLocation(2600,100);
+        frame.setResizable(false);
         frame.pack();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

@@ -21,17 +21,17 @@ public class OthelloBoard extends JPanel{
 
     private BoardCell[][] cells;
     private GameState.Player player = HU;
-    private GameEngine controller;
     private GameState gameBoard;
+    private GameEngine controller;
 
-    public OthelloBoard(GameEngine controller, GameState gameBoard){
-        this.controller=controller;
+
+    public OthelloBoard(GameState gameBoard){
         this.gameBoard=gameBoard;
 
-        cells = new BoardCell[controller.getRowSize(gameBoard)][controller.getColSize(gameBoard)];
-        controller.setUi(this);
+        cells = new BoardCell[gameBoard.getBoardRowSize()][gameBoard.getBoardColSize()];
         initUi();
     }
+
 
 
     private void initUi() {
@@ -55,13 +55,13 @@ public class OthelloBoard extends JPanel{
 
                 cells[row][col]=null;
 
-                if (controller.checkGameBoard(gameBoard,row, col) == HU) {
+                if (gameBoard.getStateInCell(row, col) == HU) {
                     cells[row][col] = new BoardCell(HU, row, col);
                 }
-                else if (controller.checkGameBoard(gameBoard,row, col) == AI) {
+                else if (gameBoard.getStateInCell(row, col) == AI) {
                     cells[row][col] = new BoardCell(AI, row, col);
                 }
-                else if (controller.checkGameBoard(gameBoard,row, col) == EM) {
+                else if (gameBoard.getStateInCell(row, col) == EM) {
                     cells[row][col] = new BoardCell(EM, row, col);
                 }
                 this.add(cells[row][col]);
@@ -83,17 +83,8 @@ public class OthelloBoard extends JPanel{
 
     }
 
-    /**Just to be able to play against oneself to try the gamerules.
-     *
-     * @param player : Player
-     */
-    public void switchToOtherPlayer(GameState.Player player) {
-        if(player==AI){
-            this.player=HU;
-        }
-        if(player==HU){
-            this.player=AI;
-        }
+    public void setController(GameEngine controller) {
+        this.controller = controller;
     }
 
 

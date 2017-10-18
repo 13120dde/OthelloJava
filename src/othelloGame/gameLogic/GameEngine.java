@@ -18,7 +18,7 @@ import static othelloGame.gameLogic.GameState.Player.AI;
  *
  * Created by Patrik Lind ,13120dde@gmail.com
  */
-public class GameEngine {
+public class GameEngine{
 
 
     public GameState.Player getPlayerInTurn() {
@@ -33,28 +33,28 @@ public class GameEngine {
 
 
     //Game engine variables
-    private OthelloBoard ui;
     private GameState gameBoard;
+    private OthelloBoard gameUI;
     private GameState.Player playerInTurn;
     private GameAI ai;
     private boolean isRecursive = false;
-    private boolean treeCreated = true;
+    private boolean aiHasPicked = true;
+
 
     /**Instantiate the game engine with GameState object passed in as argument.
      * @param gameState
      */
-    public GameEngine(GameState gameState, GameAI ai){
+    public GameEngine(GameState gameState, GameAI ai, OthelloBoard gameUI){
 
         playerInTurn = HU;
         gameBoard = gameState;
         this.ai=ai;
+        this.gameUI=gameUI;
         ai.setController(this);
+        gameUI.setController(this);
 
     }
 
-    public GameEngine(){
-
-    }
 
     /**Returns number of rows of the game-board.
      *
@@ -74,10 +74,10 @@ public class GameEngine {
 
     /**Called by ai to let it generate a gametree.
      *
-     * @param treeCreated : boolean
+     * @param aiHasPicked : boolean
      */
-    public void setTreeCreated(boolean treeCreated) {
-        this.treeCreated = treeCreated;
+    public synchronized void setAiHasPicked(boolean aiHasPicked) {
+        this.aiHasPicked = aiHasPicked;
     }
 
 
@@ -85,10 +85,6 @@ public class GameEngine {
      *
      * @return
      */
-    public void setUi(OthelloBoard ui) {
-        this.ui = ui;
-    }
-
 
     /**Returns the state of the cell at given position
      *
@@ -100,7 +96,7 @@ public class GameEngine {
         return gameBoard.getStateInCell(row,col);
     }
 
-    public void switchPlayer(GameState gameBoard,GameState.Player state){
+    public synchronized void switchPlayer(GameState gameBoard,GameState.Player state){
         System.out.print(playerInTurn+" ended his turn. ");
 
         if(state==AI){
@@ -127,14 +123,22 @@ public class GameEngine {
         System.out.println(playerInTurn+" begins his turn.");
 
         //Tree need to swithch amongs player in turn to be abel to build itself
-        if(treeCreated && state==HU){
+        if(aiHasPicked && state==HU){
             ai.choseMove(gameBoard);
         }
 
     }
 
     private void gameOver() {
+        System.out.println("\n############################################");
         System.out.println("GAME OVER!");
+        if(gameBoard.getPlayerAIScore()<gameBoard.getPlayerHUScore()){
+            System.out.println("YOU WON!");
+        }else if(gameBoard.getPlayerAIScore()>gameBoard.getPlayerHUScore()){
+            System.out.println("YOU LOST!");
+        }else{
+            System.out.println("DRAW!");
+        }
     }
 
     private boolean checkIfPlayerCanPlaceAMove(GameState gameBoard, GameState.Player playerInTurn){
@@ -160,7 +164,7 @@ public class GameEngine {
      * @param state: Player ENUM {AI, HU}
      * @param actions
      */
-    public boolean placeMove(GameState gameBoard, GameState.Player state, Actions actions) {
+    public synchronized boolean placeMove(GameState gameBoard, GameState.Player state, Actions actions) {
 
         if((actions !=null)){
 
@@ -213,6 +217,7 @@ public class GameEngine {
                     break;
 
             }
+           // System.out.println(gameBoard.toString());
             isRecursive=false;
 
 //            System.out.println("##############In gameEngine.placeMove(...)######################");
@@ -221,13 +226,14 @@ public class GameEngine {
     //        System.out.println(gameBoard.toString());
 
             //Let the AI to build its tree breath first.
-            if(treeCreated){
-                ui.repaintCell();
+            if(aiHasPicked){
+                gameUI.repaintCell();
             }
 
+            state.toString();
+
             return true;
-            //TODO remove after testing, test to play a round against yourself to see if recursion works as intended.
-           // ui.switchToOtherPlayer(state);
+
         }
 
         return false;
@@ -246,6 +252,7 @@ public class GameEngine {
        // System.out.println("#####################IN CHECK VALID PLACEMENT FIRST PASS ####################\n" +
          //       "Player: "+state+"\trow: "+row+"\tcol:"+col);
 
+        isRecursive=false;
         //need to allow recursion to place markers inf non-empty positions to be able to chain-flip
         if(!isRecursive){
             if(gameBoard.getStateInCell(row,col)!= EM){
@@ -627,4 +634,5 @@ public class GameEngine {
 
         return allMarkersToReturn;
     }
+
 }
